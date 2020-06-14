@@ -132,6 +132,38 @@ print(a)
 
 ```
 
-# Replace this with problem 4
+# Problem 4
 
-And keep going. Try to solve the problems with different scripts that provide the same solution. Good luck, Happy coding.
+Find the sum of all the integer numbers from 1 to 100.
+
+```{r}
+# Using sum function sum()
+a = 1:100
+b = sum(a)
+print(b)
+
+# Using a loop
+
+c <- length(100) # make empty variable, set length to 100
+for (i in 1:100){
+  c[i]<-i #assigns the number in i, to the ith index of a
+}
+sum(c)
+
+
+```
+
+# Problem 5
+
+Write a function to find the sum of all integers between any two values
+
+Work in Progress....
+
+
+
+
+
+
+
+
+
