@@ -407,7 +407,7 @@ div.tocify {
 <p>This is an .Rmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a # in front of your text, it will create a top level-header.</p>
 <div id="my-first-post" class="section level1">
 <h1><span class="header-section-number">1</span> My first post</h1>
-<p>2018 | 7 | 23 Last compiled: 2020-03-29</p>
+<p>2018 | 7 | 23 Last compiled: 2020-06-14</p>
 <p>Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left.</p>
 <div id="second-level-header" class="section level2">
 <h2><span class="header-section-number">1.1</span> Second level header</h2>
@@ -420,7 +420,7 @@ div.tocify {
 </div>
 <div id="my-second-post-note-the-order" class="section level1">
 <h1><span class="header-section-number">2</span> My second post (note the order)</h1>
-<p>2018 | 7 | 23 Last compiled: 2020-03-29</p>
+<p>2018 | 7 | 23 Last compiled: 2020-06-14</p>
 <p>I’m writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom</p>
 </div>
 <div id="adding-r-stuff" class="section level1">
@@ -483,12 +483,12 @@ for (i in 1:100){
 }
 
 print(a)</code></pre>
-<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
-##  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
-##  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
-##  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
-##  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
-##  [91]  91  92  93  94  95  96  97  98  99 100</code></pre>
+<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
+##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
+##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
+##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
+##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
 <pre class="r"><code># for loop solution #2
 
 a&lt;-c() #create empty variable using combine command
@@ -496,21 +496,21 @@ for (i in 1:100){
   a&lt;-c(a,i) # keeps combining a with itself and the new number in i
 }
 print(a)</code></pre>
-<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
-##  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
-##  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
-##  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
-##  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
-##  [91]  91  92  93  94  95  96  97  98  99 100</code></pre>
+<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
+##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
+##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
+##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
+##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
 <pre class="r"><code># seq solution
 a &lt;- seq(1,100,1) # look up help for seq using ?seq() in console
 print(a)</code></pre>
-<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
-##  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
-##  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
-##  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
-##  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
-##  [91]  91  92  93  94  95  96  97  98  99 100</code></pre>
+<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
+##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
+##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
+##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
+##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
 </div>
 <div id="replace-this-with-problem-4" class="section level1">
 <h1><span class="header-section-number">9</span> Replace this with problem 4</h1>
@@ -567,7 +567,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
