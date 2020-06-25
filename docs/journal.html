@@ -406,7 +406,7 @@ div.tocify {
 <!-- This is an .Rmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a \# in front of your text, it will create a top level-header. -->
 <div id="my-first-post" class="section level1">
 <h1><span class="header-section-number">1</span> My first post</h1>
-<p>2020 | 6 | 14 Last compiled: 2020-06-14</p>
+<p>2020 | 6 | 14 Last compiled: 2020-06-25</p>
 <p>This is my first post.</p>
 <div id="second-level-header" class="section level2">
 <h2><span class="header-section-number">1.1</span> Second level header</h2>
@@ -419,7 +419,7 @@ div.tocify {
 </div>
 <div id="my-second-post-note-the-order" class="section level1">
 <h1><span class="header-section-number">2</span> My second post (note the order)</h1>
-<p>2018 | 7 | 23 Last compiled: 2020-06-14</p>
+<p>2018 | 7 | 23 Last compiled: 2020-06-25</p>
 <p>I’m writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom</p>
 </div>
 <div id="adding-r-stuff" class="section level1">
@@ -482,12 +482,12 @@ for (i in 1:100){
 }
 
 print(a)</code></pre>
-<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
-##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
-##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
-##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
-##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
-##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
+<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
+##  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
+##  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
+##  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
+##  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
+##  [91]  91  92  93  94  95  96  97  98  99 100</code></pre>
 <pre class="r"><code># for loop solution #2
 
 a&lt;-c() #create empty variable using combine command
@@ -495,21 +495,21 @@ for (i in 1:100){
   a&lt;-c(a,i) # keeps combining a with itself and the new number in i
 }
 print(a)</code></pre>
-<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
-##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
-##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
-##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
-##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
-##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
+<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
+##  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
+##  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
+##  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
+##  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
+##  [91]  91  92  93  94  95  96  97  98  99 100</code></pre>
 <pre class="r"><code># seq solution
 a &lt;- seq(1,100,1) # look up help for seq using ?seq() in console
 print(a)</code></pre>
-<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
-##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
-##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
-##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
-##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
-##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100</code></pre>
+<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
+##  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
+##  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
+##  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
+##  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
+##  [91]  91  92  93  94  95  96  97  98  99 100</code></pre>
 </div>
 <div id="problem-4" class="section level1">
 <h1><span class="header-section-number">9</span> Problem 4</h1>
@@ -528,10 +528,337 @@ for (i in 1:100){
 sum(c)</code></pre>
 <pre><code>## [1] 5050</code></pre>
 </div>
-<div id="problem-5" class="section level1">
-<h1><span class="header-section-number">10</span> Problem 5</h1>
-<p>Write a function to find the sum of all integers between any two values</p>
-<p>Work in Progress….</p>
+<div id="intro-to-the-tidyverse---coding-challenge-1a" class="section level1">
+<h1><span class="header-section-number">10</span> Intro to the tidyverse - Coding Challenge 1A</h1>
+<p>Analyzed sales by state using the data set from Brazilian Online shopping company.</p>
+<pre class="r"><code># SALES BY STATE ANALYSIS ----
+
+# 1.0 Load libraries ----
+library(tidyverse)
+
+
+# 2.0 Importing Files ----
+
+sellers_tbl &lt;- read_csv(file = &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_sellers_dataset.csv&quot;) 
+order_items_tbl &lt;- read_csv(file = &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_order_items_dataset.csv&quot;)
+orders_tbl      &lt;- read_csv(file = &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_orders_dataset.csv&quot;)
+
+
+# 3.0 Examining Data ----
+
+# 4.0 Joining Data ----
+
+sellers_joined_tbl  &lt;- order_items_tbl %&gt;%
+  left_join(orders_tbl) %&gt;%
+  left_join(sellers_tbl)
+
+# 5.0 Wrangling Data ----
+
+sellers_wrangled_tbl &lt;- sellers_joined_tbl %&gt;%
+  
+  separate(col    = seller.location,
+           into   = c(&quot;seller.city&quot;, &quot;seller.state&quot;),
+           sep    = &quot;, &quot;,
+           remove = FALSE) %&gt;%
+  
+  mutate(total.price = price + freight.value) %&gt;%
+  
+  select(-starts_with(&quot;product.&quot;)) %&gt;%
+  
+  select(-ends_with(&quot;.date&quot;)) %&gt;%
+  
+  
+  rename(order_date = order.purchase.timestamp) %&gt;% 
+  
+  set_names(names(.) %&gt;% 
+              
+              str_replace_all(&quot;\\.&quot;, &quot;_&quot;))
+
+# 6.0 Business Insights ----
+
+library(lubridate)
+
+# 6.1 Sales by Year and Category 2 ----
+
+# Step 1 - Manipulate
+
+revenue_by_year_and_state_tbl &lt;- sellers_wrangled_tbl %&gt;%
+  
+  # Select columns and add a year
+  select(order_date, total_price, seller_city, seller_state) %&gt;% 
+  mutate(year = year(order_date)) %&gt;%
+  
+  # Filter  &gt; 1.000.000
+  group_by(seller_state) %&gt;% 
+  filter(sum(total_price) &gt; 1000000) %&gt;% # If you run the code up here, R will tell you that we have 6 groups
+  ungroup() %&gt;%
+  
+  # Group by and summarize year and main catgegory
+  group_by(year, seller_state) %&gt;% 
+  summarise(revenue = sum(total_price)) %&gt;% 
+  ungroup() %&gt;%
+  
+  # Format $ Text
+  mutate(revenue_text = scales::dollar(revenue))
+
+revenue_by_year_and_state_tbl </code></pre>
+<pre><code>## # A tibble: 9 x 4
+##    year seller_state  revenue revenue_text
+##   &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;       
+## 1  2016 MG              3142. $3,142      
+## 2  2016 PR              8009. $8,009      
+## 3  2016 SP             30853. $30,853     
+## 4  2017 MG            616135. $616,135    
+## 5  2017 PR            603438. $603,438    
+## 6  2017 SP           4579119. $4,579,119  
+## 7  2018 MG            604882. $604,882    
+## 8  2018 PR            847454. $847,454    
+## 9  2018 SP           5625912. $5,625,912</code></pre>
+<pre class="r"><code># Step 2 - Visualize
+revenue_by_year_and_state_tbl  %&gt;%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = year, y = revenue, fill = seller_state)) +
+  
+  # Geometries
+  geom_col() + # Run up to here to get a stacked bar plot
+  
+  # Facet
+  facet_wrap(~ seller_state) +
+  
+  # Formatting
+  scale_y_continuous(labels = scales::dollar) +
+  labs(
+    title = &quot;Revenue by year and state&quot;,
+    subtitle = &quot;SP had the largest portion of revenues&quot;,
+    fill = &quot;State&quot; # Changes the legend name
+  )</code></pre>
+<p><img src="journal_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code># 7.0 Writing Files ----
+
+library(fs)
+fs::dir_create(&quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student&quot;)
+
+# 7.1 Excel ----
+
+library(&quot;writexl&quot;)
+write_xlsx( sellers_wrangled_tbl, &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/sellers_table.xlsx&quot;)
+write_xlsx(revenue_by_year_and_state_tbl, &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/revenue_by_year_and_state.xlsx&quot;)
+
+# 7.2 CSV ----
+
+write_csv( sellers_wrangled_tbl, &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/sellers_table.csv&quot;)
+write_csv( revenue_by_year_and_state_tbl , &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/revenue_by_year_and_state.csv&quot;)
+
+# 7.3 RDS ----
+write_rds( sellers_wrangled_tbl, &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/sellers_table.rds&quot;)
+write_rds( revenue_by_year_and_state_tbl , &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/revenue_by_year_and_state.rds&quot;)</code></pre>
+</div>
+<div id="intro-to-the-tidyverse---coding-challenge-1b" class="section level1">
+<h1><span class="header-section-number">11</span> Intro to the tidyverse - Coding Challenge 1B</h1>
+<p>Used the English translation of the categories and intergrated it back into the example code that was provided.</p>
+<pre class="r"><code># SALES ANALYSIS WITH ENGLISH TRANSLATION ----
+
+# 1.0 Load libraries ----
+library(tidyverse)
+library(readxl)
+
+
+# 2.0 Importing Files ----
+# A good convention is to use the csv file name and suffix it with tbl for the data structure tibble
+order_items_tbl &lt;- read_csv(file = &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_order_items_dataset.csv&quot;) 
+products_tbl    &lt;- read_csv(file = &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_products_dataset.csv&quot;)
+orders_tbl      &lt;- read_csv(file = &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_orders_dataset.csv&quot;)
+product_cat_name_english  &lt;- read_excel(&quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/product_category_name_translation.xlsx&quot;)
+
+# 3.0 Fixing name on new table ----
+prod_cat_name_eng_corrected &lt;- product_cat_name_english %&gt;%
+  
+  set_names(names(.) %&gt;% 
+              
+              str_replace_all(&quot;_&quot;, &quot;\\.&quot;))
+
+prod_cat_name_eng_corrected</code></pre>
+<pre><code>## # A tibble: 71 x 2
+##    product.category.name     product.category.name.english
+##    &lt;chr&gt;                     &lt;chr&gt;                        
+##  1 agro_industria_e_comercio agro_industry_and_commerce   
+##  2 alimentos                 food                         
+##  3 alimentos - bebidas       food - drink                 
+##  4 artes                     art                          
+##  5 artes_e_artesanato        arts_and_craftmanship        
+##  6 artigos - de_festas       supplies - party             
+##  7 artigos - de_natal        supplies - christmas         
+##  8 audio                     audio                        
+##  9 automotivo                auto                         
+## 10 bebes                     baby                         
+## # ... with 61 more rows</code></pre>
+<pre class="r"><code># 4.0 Joining Data ----
+
+order_items_joined_tbl  &lt;- order_items_tbl %&gt;%
+  left_join(orders_tbl) %&gt;%
+  left_join(products_tbl)%&gt;%
+  left_join(prod_cat_name_eng_corrected)
+
+# 5.0 Wrangling Data ----
+
+order_items_wrangled_tbl &lt;- order_items_joined_tbl %&gt;%
+  
+  separate(col    = product.category.name.english,
+           into   = c(&quot;main.category.name&quot;, &quot;sub.category.name&quot;),
+           sep    = &quot; - &quot;,
+           remove = FALSE) %&gt;%
+  
+  mutate(total.price = price + freight.value) %&gt;%
+  
+  select(-starts_with(&quot;product.&quot;)) %&gt;%
+  
+  select(-ends_with(&quot;.date&quot;)) %&gt;%
+  
+  bind_cols(order_items_joined_tbl %&gt;% select(product.id)) %&gt;% 
+  
+  select(contains(&quot;timestamp&quot;), contains(&quot;.id&quot;),
+         main.category.name, sub.category.name, price, freight.value, total.price,
+         everything()) %&gt;% 
+  
+  rename(order_date = order.purchase.timestamp) %&gt;% 
+  
+  set_names(names(.) %&gt;% 
+              
+              str_replace_all(&quot;\\.&quot;, &quot;_&quot;))
+
+# 6.0 Business Insights ----
+# 6.1 Sales by Year ----
+library(lubridate)
+# Step 1 - Manipulate
+
+# Create a table revenue_by_year_tbl
+
+revenue_by_year_tbl &lt;- order_items_wrangled_tbl %&gt;%
+  
+  # Select Columns
+  select(order_date, total_price) %&gt;%
+  
+  # add column with year by using mutate and extracting the year from order date
+  mutate(year =year(order_date)) %&gt;%
+  
+  # Grouping by year and summarizing sales
+  group_by(year) %&gt;% 
+  summarize(revenue = sum(total_price)) %&gt;%
+  
+  # Optional: Add a column that turns the numbers into a currency format (makes it in the plot optically more appealing)
+  mutate(revenue_text = scales::dollar(revenue, prefix = &quot;$&quot;))
+
+revenue_by_year_tbl</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##    year  revenue revenue_text
+##   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+## 1  2016   57183. $57,183     
+## 2  2017 7142672. $7,142,672  
+## 3  2018 8643698. $8,643,698</code></pre>
+<pre class="r"><code># Step 2 - Visualize
+
+
+revenue_by_year_tbl %&gt;%
+  
+  # Setup canvas with the columns year (x-axis) and revenue (y-axis)
+  ggplot(aes(x = year, y = revenue)) +
+  
+  # Geometries
+  geom_col(fill = &quot;#2DC6D6&quot;) + # Use geom_col for a bar plot
+  geom_label(aes(label = revenue_text)) + # Adding labels to the bars
+  geom_smooth(method = &quot;lm&quot;, se = FALSE) + # Adding a trendline
+  
+  # Formatting
+  scale_y_continuous(labels = scales::dollar) + # Change the y-axis
+  labs(
+    title    = &quot;Revenue by year&quot;,
+    subtitle = &quot;Upward Trend&quot;,
+    x = &quot;&quot;, # Override defaults for x and y
+    y = &quot;Revenue&quot;
+  )</code></pre>
+<p><img src="journal_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code># 6.2 Sales by Year and Category 2 ----
+
+# Step 1 - Manipulate
+
+revenue_by_year_cat_main_tbl &lt;- order_items_wrangled_tbl %&gt;%
+  
+  # Select columns and add a year
+  select(order_date, total_price, main_category_name) %&gt;% 
+  mutate(year = year(order_date)) %&gt;%
+  
+  # Filter  &gt; 1.000.000
+  group_by(main_category_name) %&gt;% 
+  filter(sum(total_price) &gt; 1000000) %&gt;% # If you run the code up here, R will tell you that we have 6 groups
+  ungroup() %&gt;%
+  
+  # Group by and summarize year and main catgegory
+  group_by(year, main_category_name) %&gt;% 
+  summarise(revenue = sum(total_price)) %&gt;% 
+  ungroup() %&gt;%
+  
+  # Format $ Text
+  mutate(revenue_text = scales::dollar(revenue))
+
+revenue_by_year_cat_main_tbl  </code></pre>
+<pre><code>## # A tibble: 18 x 4
+##     year main_category_name    revenue revenue_text
+##    &lt;dbl&gt; &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;       
+##  1  2016 bed_bath_table           607. $607        
+##  2  2016 computers_accessories   1740. $1,740      
+##  3  2016 furniture               8776. $8,776      
+##  4  2016 health_beauty           5637. $5,637      
+##  5  2016 sports_leisure          3927. $3,927      
+##  6  2016 watches_gifts           3468. $3,468      
+##  7  2017 bed_bath_table        590280. $590,280    
+##  8  2017 computers_accessories 462761. $462,761    
+##  9  2017 furniture             659522. $659,522    
+## 10  2017 health_beauty         550420. $550,420    
+## 11  2017 sports_leisure        530730. $530,730    
+## 12  2017 watches_gifts         530087. $530,087    
+## 13  2018 bed_bath_table        650795. $650,795    
+## 14  2018 computers_accessories 594771. $594,771    
+## 15  2018 furniture             752618. $752,618    
+## 16  2018 health_beauty         885191. $885,191    
+## 17  2018 sports_leisure        621999. $621,999    
+## 18  2018 watches_gifts         771987. $771,987</code></pre>
+<pre class="r"><code># Step 2 - Visualize
+revenue_by_year_cat_main_tbl %&gt;%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = year, y = revenue, fill = main_category_name)) +
+  
+  # Geometries
+  geom_col() + # Run up to here to get a stacked bar plot
+  
+  # Facet
+  facet_wrap(~ main_category_name) +
+  
+  # Formatting
+  scale_y_continuous(labels = scales::dollar) +
+  labs(
+    title = &quot;Revenue by year and main category&quot;,
+    subtitle = &quot;Each product category has an upward trend&quot;,
+    fill = &quot;Main category&quot; # Changes the legend name
+  )</code></pre>
+<p><img src="journal_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<pre class="r"><code># 7.0 Writing Files ----
+# If you want to interact with the filesystem use the fs package
+
+library(fs)
+fs::dir_create(&quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student&quot;)
+
+# 7.1 Excel ----
+
+library(&quot;writexl&quot;)
+write_xlsx( order_items_wrangled_tbl, &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/order_items_english.xlsx&quot;)
+
+# 7.2 CSV ----
+write_csv( order_items_wrangled_tbl, &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/order_items_english.csv&quot;)
+
+# 7.3 RDS ----
+write_rds( order_items_wrangled_tbl, &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/order_items_english.rds&quot;)</code></pre>
 </div>
 
 

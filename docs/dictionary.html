@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joschka Schwarz" />
 
-<meta name="date" content="2020-06-14" />
+<meta name="date" content="2020-06-25" />
 
 <title>Dictionary</title>
 
@@ -405,7 +405,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Dictionary</h1>
 <h4 class="author">Joschka Schwarz</h4>
-<h4 class="date">2020-06-14</h4>
+<h4 class="date">2020-06-25</h4>
 
 </div>
 
@@ -429,13 +429,14 @@ div.tocify {
 </ol>
 <pre class="r"><code>list.files()</code></pre>
 <pre><code>##  [1] &quot;README.md&quot;                 &quot;Rprof.out&quot;                
-##  [3] &quot;_site.yml&quot;                 &quot;data_wrangling.Rmd&quot;       
-##  [5] &quot;data_wrangling.html&quot;       &quot;dictionary.Rmd&quot;           
-##  [7] &quot;ggplot_graphs.Rmd&quot;         &quot;images&quot;                   
-##  [9] &quot;index.Rmd&quot;                 &quot;journal.Rmd&quot;              
-## [11] &quot;lab_journal_website.Rproj&quot; &quot;links.Rmd&quot;                
-## [13] &quot;machine_learning.Rmd&quot;      &quot;site_libs&quot;                
-## [15] &quot;testfile.rds&quot;              &quot;testfile.txt&quot;</code></pre>
+##  [3] &quot;Rstudio&quot;                   &quot;_site.yml&quot;                
+##  [5] &quot;data_wrangling.Rmd&quot;        &quot;data_wrangling.html&quot;      
+##  [7] &quot;dictionary.Rmd&quot;            &quot;ggplot_graphs.Rmd&quot;        
+##  [9] &quot;images&quot;                    &quot;index.Rmd&quot;                
+## [11] &quot;journal.Rmd&quot;               &quot;lab_journal_website.Rproj&quot;
+## [13] &quot;links.Rmd&quot;                 &quot;machine_learning.Rmd&quot;     
+## [15] &quot;sales_analysis.R&quot;          &quot;site_libs&quot;                
+## [17] &quot;testfile.rds&quot;              &quot;testfile.txt&quot;</code></pre>
 <p>…</p>
 <hr />
 </div>
@@ -493,8 +494,6 @@ df</code></pre>
 </ol>
 <pre class="r"><code>col_C  &lt;- c(TRUE, FALSE, FALSE, TRUE)
 df_new &lt;- rbind(df, col_C)</code></pre>
-<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, ri, value = FALSE): invalid factor level,
-## NA generated</code></pre>
 </div>
 <div id="slicing-and-extracting-data-indexing-vectors" class="section level2">
 <h2><span class="header-section-number">1.4</span> Slicing and extracting data indexing vectors</h2>
@@ -599,21 +598,19 @@ plot(x)</code></pre>
 <h2><span class="header-section-number">1.14</span> Distributions</h2>
 <p>rnorm() This function inserts a normal distribution.</p>
 <pre class="r"><code>rnorm(100, mean = 50, sd=2)</code></pre>
-<pre><code>##   [1] 44.71505 51.13812 49.23060 50.79278 48.79117 48.78346 50.16495
-##   [8] 51.39738 49.75284 48.02012 49.55249 48.59095 52.78177 49.59759
-##  [15] 51.52469 49.66811 46.41080 50.84676 51.61512 49.00063 48.45024
-##  [22] 51.71861 51.85912 48.93738 48.27543 50.36071 51.79445 51.93454
-##  [29] 49.53518 48.43836 49.57040 49.18490 51.04333 51.21532 50.46778
-##  [36] 54.18836 49.96067 52.81588 49.91563 47.61721 50.12648 47.96639
-##  [43] 47.26323 47.12222 49.08927 51.57455 53.30788 48.50087 49.49398
-##  [50] 51.44888 49.52354 50.15169 49.89809 51.18464 46.83591 52.47116
-##  [57] 49.00055 50.22166 49.32457 52.53149 45.97795 48.68581 53.91975
-##  [64] 50.00348 50.94485 54.31368 47.24325 53.38281 49.41708 52.74509
-##  [71] 50.60879 50.72865 49.18925 51.39950 50.67804 48.58660 50.14196
-##  [78] 46.03545 52.17812 48.33612 54.43969 50.68557 51.66390 49.12258
-##  [85] 49.08073 52.87922 50.35505 51.66612 47.89580 50.45715 52.25034
-##  [92] 50.76550 50.77018 49.20344 51.32016 49.55682 47.56033 50.23471
-##  [99] 48.92468 51.43922</code></pre>
+<pre><code>##   [1] 52.07564 50.73550 49.31769 50.07739 48.40009 50.15571 49.55896 48.21063
+##   [9] 50.03759 50.79301 48.80812 53.77115 46.32734 45.37862 53.92713 47.52162
+##  [17] 53.29044 48.56858 47.56941 51.01653 49.45992 49.33926 49.66655 50.15827
+##  [25] 48.34293 50.14437 51.37858 49.46833 51.18997 48.86695 50.24378 50.71981
+##  [33] 49.66122 52.26017 48.31183 48.71185 50.21509 49.44426 50.67067 48.63673
+##  [41] 47.93745 49.95843 45.49536 46.07289 47.41900 48.21801 48.46846 49.13039
+##  [49] 48.48697 50.57644 50.83069 48.67799 50.73506 52.37878 51.78753 50.01451
+##  [57] 50.25757 48.74011 49.12116 49.34051 51.78946 48.66534 50.74575 50.00279
+##  [65] 47.29914 49.80742 50.71914 51.34750 47.99464 49.43367 47.34778 53.54780
+##  [73] 50.26108 50.66320 46.33160 49.99133 50.62883 49.80773 49.66460 51.93259
+##  [81] 53.33311 49.78814 50.83657 46.79070 51.80007 51.06841 52.17163 47.53309
+##  [89] 49.43797 49.72526 50.85222 50.20947 47.20620 48.11561 49.47654 50.09249
+##  [97] 55.04270 49.69524 50.04070 48.78296</code></pre>
 </div>
 <div id="programming" class="section level2">
 <h2><span class="header-section-number">1.15</span> Programming</h2>

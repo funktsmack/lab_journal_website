@@ -152,10 +152,9 @@ sum(c)
 
 
 ```
-
 # Intro to the tidyverse - Coding Challenge 1A
 
-Analyzed sales by state using the dataset from Brazilian Online shopping company.
+Analyzed sales by state using the data set from Brazilian Online shopping company.
 
 ```{r}
 
@@ -259,7 +258,6 @@ fs::dir_create("Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_da
 
 # 7.1 Excel ----
 
-install.packages("writexl")
 library("writexl")
 write_xlsx( sellers_wrangled_tbl, "Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/sellers_table.xlsx")
 write_xlsx(revenue_by_year_and_state_tbl, "Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/revenue_by_year_and_state.xlsx")
@@ -273,7 +271,6 @@ write_csv( revenue_by_year_and_state_tbl , "Rstudio/DS_business_case_01/00_data/
 write_rds( sellers_wrangled_tbl, "Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/sellers_table.rds")
 write_rds( revenue_by_year_and_state_tbl , "Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/revenue_by_year_and_state.rds")
 ```
-
 
 # Intro to the tidyverse - Coding Challenge 1B
 
@@ -438,7 +435,6 @@ fs::dir_create("Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_da
 
 # 7.1 Excel ----
 
-install.packages("writexl")
 library("writexl")
 write_xlsx( order_items_wrangled_tbl, "Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/order_items_english.xlsx")
 
@@ -446,16 +442,9 @@ write_xlsx( order_items_wrangled_tbl, "Rstudio/DS_business_case_01/00_data/01_e-
 write_csv( order_items_wrangled_tbl, "Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/order_items_english.csv")
 
 # 7.3 RDS ----
-write_rds( sellers_wrangled_tbl, "Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/sellers_table.rds")
+write_rds( order_items_wrangled_tbl, "Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/order_items_english.rds")
 
 ```
-
-
-
-
-
-
-
 
 
 
