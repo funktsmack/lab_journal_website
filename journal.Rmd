@@ -446,6 +446,73 @@ write_rds( order_items_wrangled_tbl, "Rstudio/DS_business_case_01/00_data/01_e-c
 
 ```
 
+# Data Aquisition - Challenge 1 - Gather Data From a API
+
+In this example we will gather a random cocktail from the cocktail DB and present information about it and how to make it.
+
+
+```{r}
+library(httr)
+library(jsonlite)
+library(tidyverse)
+library(dplyr)
+
+#Script to pull a random cocktail from the cocktail db.
+
+resp <- GET("https://www.thecocktaildb.com/api/json/v1/1/random.php")
+resp
+
+random_drink = fromJSON(rawToChar(resp$content))
+
+pullout_data <- random_drink[[1]] 
+
+#Code to reduce number of columns and also filter out NA columns
+your_random_drink <- as_tibble(pullout_data) %>% 
+  select(strDrink ,strAlcoholic, strInstructions,strGlass, 
+         strIngredient1:strIngredient7, strMeasure1:strMeasure7) %>% select_if(~sum(!is.na(.)) > 0)
+
+print(your_random_drink)
+print("Enjoy!!")
+
+
+```
+
+# Data Aquisition - Challenge 2 - Scrape Data from ecommerce site
+
+In this example we will scrape data from a amazon search result about gaming pc's.
+
+
+```{r}
+
+library(tidyverse) # Main Package - Loads dplyr, purrr
+library(rvest)     # HTML Hacking & Web Scraping
+library(xopen)     # Quickly opening URLs
+library(jsonlite)  # converts JSON files to R objects
+library(glue)      # concatenate strings
+library(stringi)   # character string/text processing
+library(httr)
+
+url_home          <- "https://www.amazon.de/s?k=gaming+pc&rh=n%3A427954031&ref=nb_sb_noss"
+# Read in the HTML for the entire webpage
+html_home         <- read_html(url_home)
+
+# Web scrape the ids for the families
+Name_items <- html_home %>%
+  
+  html_nodes(css = ".a-size-medium") %>%
+  
+ html_text()
+
+Item_price <- html_home %>%
+  
+  html_nodes(css = ".a-price-whole") %>%
+  
+  html_text()  
+
+Gaming_pc_tbl <- tibble(Name_items, Item_price)
+
+
+```
 
 
 

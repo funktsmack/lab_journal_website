@@ -406,7 +406,7 @@ div.tocify {
 <!-- This is an .Rmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a \# in front of your text, it will create a top level-header. -->
 <div id="my-first-post" class="section level1">
 <h1><span class="header-section-number">1</span> My first post</h1>
-<p>2020 | 6 | 14 Last compiled: 2020-06-25</p>
+<p>2020 | 6 | 14 Last compiled: 2020-07-03</p>
 <p>This is my first post.</p>
 <div id="second-level-header" class="section level2">
 <h2><span class="header-section-number">1.1</span> Second level header</h2>
@@ -419,7 +419,7 @@ div.tocify {
 </div>
 <div id="my-second-post-note-the-order" class="section level1">
 <h1><span class="header-section-number">2</span> My second post (note the order)</h1>
-<p>2018 | 7 | 23 Last compiled: 2020-06-25</p>
+<p>2018 | 7 | 23 Last compiled: 2020-07-03</p>
 <p>I’m writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom</p>
 </div>
 <div id="adding-r-stuff" class="section level1">
@@ -859,6 +859,72 @@ write_csv( order_items_wrangled_tbl, &quot;Rstudio/DS_business_case_01/00_data/0
 
 # 7.3 RDS ----
 write_rds( order_items_wrangled_tbl, &quot;Rstudio/DS_business_case_01/00_data/01_e-commerce/04_wrangled_data_student/order_items_english.rds&quot;)</code></pre>
+</div>
+<div id="data-aquisition---challenge-1---gather-data-from-a-api" class="section level1">
+<h1><span class="header-section-number">12</span> Data Aquisition - Challenge 1 - Gather Data From a API</h1>
+<p>In this example we will gather a random cocktail from the cocktail DB and present information about it and how to make it.</p>
+<pre class="r"><code>library(httr)
+library(jsonlite)
+library(tidyverse)
+library(dplyr)
+
+#Script to pull a random cocktail from the cocktail db.
+
+resp &lt;- GET(&quot;https://www.thecocktaildb.com/api/json/v1/1/random.php&quot;)
+resp</code></pre>
+<pre><code>## Response [https://www.thecocktaildb.com/api/json/v1/1/random.php]
+##   Date: 2020-07-03 19:11
+##   Status: 200
+##   Content-Type: application/json
+##   Size: 1.46 kB</code></pre>
+<pre class="r"><code>random_drink = fromJSON(rawToChar(resp$content))
+
+pullout_data &lt;- random_drink[[1]] 
+
+#Code to reduce number of columns and also filter out NA columns
+your_random_drink &lt;- as_tibble(pullout_data) %&gt;% 
+  select(strDrink ,strAlcoholic, strInstructions,strGlass, 
+         strIngredient1:strIngredient7, strMeasure1:strMeasure7) %&gt;% select_if(~sum(!is.na(.)) &gt; 0)
+
+print(your_random_drink)</code></pre>
+<pre><code>## # A tibble: 1 x 10
+##   strDrink strAlcoholic strInstructions strGlass strIngredient1 strIngredient2
+##   &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;         
+## 1 Jack Ro~ Alcoholic    Shake all ingr~ Cocktai~ Apple brandy   Grenadine     
+## # ... with 4 more variables: strIngredient3 &lt;chr&gt;, strMeasure1 &lt;chr&gt;,
+## #   strMeasure2 &lt;chr&gt;, strMeasure3 &lt;chr&gt;</code></pre>
+<pre class="r"><code>print(&quot;Enjoy!!&quot;)</code></pre>
+<pre><code>## [1] &quot;Enjoy!!&quot;</code></pre>
+</div>
+<div id="data-aquisition---challenge-2---scrape-data-from-ecommerce-site" class="section level1">
+<h1><span class="header-section-number">13</span> Data Aquisition - Challenge 2 - Scrape Data from ecommerce site</h1>
+<p>In this example we will scrape data from a amazon search result about gaming pc’s.</p>
+<pre class="r"><code>library(tidyverse) # Main Package - Loads dplyr, purrr
+library(rvest)     # HTML Hacking &amp; Web Scraping
+library(xopen)     # Quickly opening URLs
+library(jsonlite)  # converts JSON files to R objects
+library(glue)      # concatenate strings
+library(stringi)   # character string/text processing
+library(httr)
+
+url_home          &lt;- &quot;https://www.amazon.de/s?k=gaming+pc&amp;rh=n%3A427954031&amp;ref=nb_sb_noss&quot;
+# Read in the HTML for the entire webpage
+html_home         &lt;- read_html(url_home)
+
+# Web scrape the ids for the families
+Name_items &lt;- html_home %&gt;%
+  
+  html_nodes(css = &quot;.a-size-medium&quot;) %&gt;%
+  
+ html_text()
+
+Item_price &lt;- html_home %&gt;%
+  
+  html_nodes(css = &quot;.a-price-whole&quot;) %&gt;%
+  
+  html_text()  
+
+Gaming_pc_tbl &lt;- tibble(Name_items, Item_price)</code></pre>
 </div>
 
 
