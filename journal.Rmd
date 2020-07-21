@@ -514,5 +514,430 @@ Gaming_pc_tbl <- tibble(Name_items, Item_price)
 
 ```
 
+# Data Wrangling (no code saved here as it really takes to long to run on my computer, please reach out if you want to see my code and I will send it to you)
+
+Download and play with the patents data base to answer the following Questions:
+
+Patent Dominance: What US company has the most patents? List the 10 US companies with the most aaigned/granted patents.
+Recent patent acitivity: What US company had the most patents granted in 2019? List the top 10 companies with the most new granted patents for 2019.
+Innovation in Tech: What is the most innovative tech sector? For the top 10 companies with the most patents, what are the top 5 USPTO tech main classes?
 
 
+# Data Visualization
+
+Create at least 2 plots.
+
+For the first one use the olist data and create a violin plot that shows the price distribution for whatever categories you choose.
+
+Take the covid data from the last session and map the death / cases over the time. Show the trend for the entire world as well as for Germany and the USA (line plot).
+
+Optional: Create a worldmap and color the countries according to the fatality (total deaths per capita). If it is easier for you, you can do it also just for the states of the USA or any other state (you need to get a different dataset though).
+
+```{r}
+#part 1
+
+# SALES ANALYSIS WITH ENGLISH TRANSLATION ----
+
+# 1.0 Load libraries ----
+library(tidyverse)
+library(readxl)
+
+
+# 2.0 Importing Files ----
+# A good convention is to use the csv file name and suffix it with tbl for the data structure tibble
+order_items_tbl <- read_csv(file = "Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_order_items_dataset.csv") 
+products_tbl    <- read_csv(file = "Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_products_dataset.csv")
+orders_tbl      <- read_csv(file = "Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_orders_dataset.csv")
+product_cat_name_english  <- read_excel("Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/product_category_name_translation.xlsx")
+
+# 3.0 Fixing name on new table ----
+prod_cat_name_eng_corrected <- product_cat_name_english %>%
+  
+  set_names(names(.) %>% 
+              
+              str_replace_all("_", "\\."))
+
+prod_cat_name_eng_corrected
+
+# 4.0 Joining Data ----
+
+order_items_joined_tbl  <- order_items_tbl %>%
+  left_join(orders_tbl) %>%
+  left_join(products_tbl)%>%
+  left_join(prod_cat_name_eng_corrected)
+
+# 5.0 Wrangling Data ----
+
+order_items_wrangled_tbl <- order_items_joined_tbl %>%
+  
+  separate(col    = product.category.name.english,
+           into   = c("main.category.name", "sub.category.name"),
+           sep    = " - ",
+           remove = FALSE) %>%
+  
+  mutate(total.price = price + freight.value) %>%
+  
+  select(-starts_with("product.")) %>%
+  
+  select(-ends_with(".date")) %>%
+  
+  bind_cols(order_items_joined_tbl %>% select(product.id)) %>% 
+  
+  select(contains("timestamp"), contains(".id"),
+         main.category.name, sub.category.name, price, freight.value, total.price,
+         everything()) %>% 
+  
+  rename(order_date = order.purchase.timestamp) %>% 
+  
+  set_names(names(.) %>% 
+              
+              str_replace_all("\\.", "_"))
+
+# 6.0 Business Insights ----
+# 6.1 Sales by Year ----
+library(lubridate)
+# Step 1 - Manipulate
+
+# Create a table revenue_by_year_tbl
+
+revenue_by_year_tbl <- order_items_wrangled_tbl %>%
+  
+  # Select Columns
+  select(order_date, total_price) %>%
+  
+  # add column with year by using mutate and extracting the year from order date
+  mutate(year =year(order_date)) %>%
+  
+  # Grouping by year and summarizing sales
+  group_by(year) %>% 
+  summarize(revenue = sum(total_price)) %>%
+  
+  # Optional: Add a column that turns the numbers into a currency format (makes it in the plot optically more appealing)
+  mutate(revenue_text = scales::dollar(revenue, prefix = "$"))
+
+revenue_by_year_tbl
+
+# Step 2 - Visualize
+
+
+revenue_by_year_tbl %>%
+  
+  # Setup canvas with the columns year (x-axis) and revenue (y-axis)
+  ggplot(aes(x = year, y = revenue)) +
+  
+  # Geometries
+  geom_col(fill = "#2DC6D6") + # Use geom_col for a bar plot
+  geom_label(aes(label = revenue_text)) + # Adding labels to the bars
+  geom_smooth(method = "lm", se = FALSE) + # Adding a trendline
+  
+  # Formatting
+  scale_y_continuous(labels = scales::dollar) + # Change the y-axis
+  labs(
+    title    = "Revenue by year",
+    subtitle = "Upward Trend",
+    x = "", # Override defaults for x and y
+    y = "Revenue"
+  )
+# 6.2 Sales by Year and Category 2 ----
+
+# Step 1 - Manipulate
+
+revenue_by_year_cat_main_tbl <- order_items_wrangled_tbl %>%
+  
+  # Select columns and add a year
+  select(order_date, total_price, main_category_name) %>% 
+  mutate(year = year(order_date)) %>%
+  
+  # Filter  > 1.000.000
+  group_by(main_category_name) %>% 
+  filter(sum(total_price) > 1000000) %>% # If you run the code up here, R will tell you that we have 6 groups
+  ungroup() %>%
+  
+  # Group by and summarize year and main catgegory
+  group_by(year, main_category_name) %>% 
+  summarise(revenue = sum(total_price)) %>% 
+  ungroup() %>%
+  
+  # Format $ Text
+  mutate(revenue_text = scales::dollar(revenue))
+
+revenue_by_year_cat_main_tbl  
+
+
+# Step 2 - Visualize
+revenue_by_year_cat_main_tbl %>%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = year, y = revenue, fill = main_category_name)) +
+  
+  # Geometries
+  geom_col() + # Run up to here to get a stacked bar plot
+  
+  # Facet
+  facet_wrap(~ main_category_name) +
+  
+  # Formatting
+  scale_y_continuous(labels = scales::dollar) +
+  labs(
+    title = "Revenue by year and main category",
+    subtitle = "Each product category has an upward trend",
+    fill = "Main category" # Changes the legend name
+  )
+
+# 6.3 Violin chart of price by category
+
+# Step 1 - Manipulate
+
+price_by_year_cat_main_tbl <- order_items_wrangled_tbl %>%
+  
+  # Select columns and add a year
+  select(order_date, total_price, main_category_name) %>% 
+  mutate(year = year(order_date)) %>%
+  
+
+# Filter  (choose a category)
+group_by(main_category_name) %>% 
+  filter(main_category_name %in% c("health_beauty","sports_leisure","bed_bath_table","furniture")) %>% # If you run the code up here, R will tell you that we have 6 groups
+  ungroup()
+
+
+# Step 2 - Visualize
+price_by_year_cat_main_tbl %>%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = main_category_name , y = total_price)) +
+  
+  # Geometries
+  geom_violin(draw_quantiles = c(0.25,0.5,0.75)) + # Run up to here to get a stacked bar plot
+  
+  # limits
+  ylim(0,4000) +
+ 
+  
+  # Formatting
+  
+  labs(
+    title = "Price by Category (no limit on Y axis)",
+    subtitle = "Violin showing variability in price",
+    fill = "Main category" # Changes the legend name
+  )
+
+# Step 2 - Visualize
+price_by_year_cat_main_tbl %>%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = main_category_name , y = total_price)) +
+  
+  # Geometries
+  geom_violin(draw_quantiles = c(0.25,0.5,0.75)) + # Run up to here to get a stacked bar plot
+  
+  # limits
+  ylim(0,2000) +
+  
+  
+  # Formatting
+  
+  labs(
+    title = "Price by Category (Y limited to $2000)",
+    subtitle = "Violin showing variability in price",
+    fill = "Main category" # Changes the legend name
+  )
+
+# Step 2 - Visualize
+price_by_year_cat_main_tbl %>%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = main_category_name , y = total_price)) +
+  
+  # Geometries
+  geom_violin(draw_quantiles = c(0.25,0.5,0.75)) + # Run up to here to get a stacked bar plot
+  
+  # limits
+  ylim(0,500) +
+  
+  
+  # Formatting
+  
+  labs(
+    title = "Price by Category (y axis limited to $500)",
+    subtitle = "Violin showing variability in price",
+    fill = "Main category" # Changes the legend name
+  )
+
+#part 2
+
+# TASK Take the covid data from the last session and map the death / 
+# cases over the time. Show the trend for the entire world as well as for Germany and the USA
+#LINE PLOT
+
+library(Quandl)
+library(lubridate)
+library(tidyverse)
+library(readxl)
+library(dplyr)
+library(data.table)
+url <- "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv"
+covid_data_dt <- fread(url)
+
+class(covid_data_dt)
+
+# Create a table with data we need
+#First graph is for Cumulative Cases
+
+
+Relevant_data_needed<- covid_data_dt %>%
+  
+  # Select Columns
+  select(dateRep, countriesAndTerritories, deaths, cases, popData2019) %>%
+ group_by(countriesAndTerritories)%>%
+  mutate(dateRep = as.Date(dateRep, "%d/%m/%Y")) %>%
+  
+ 
+  arrange(dateRep) %>%
+  
+  # Filter  (choose a country/countries)
+  group_by(countriesAndTerritories) %>% 
+  filter(countriesAndTerritories %in% c("Germany","United_States_of_America")) %>% 
+  ungroup() %>%
+
+group_by(countriesAndTerritories) %>% mutate(cumCases = cumsum(cases))
+
+frmLast <- Relevant_data_needed %>%
+  slice(which.max(dateRep))
+
+frmFirst <- Relevant_data_needed %>% 
+  slice(which.min(dateRep))
+
+
+# Step 2 - Visualize Cases
+Relevant_data_needed %>%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = dateRep, y = cumCases, group = countriesAndTerritories)) +
+  
+  # Geometries
+  geom_line(aes(color=countriesAndTerritories)) + 
+  
+  scale_y_continuous(trans = 'log10') +
+annotation_logticks(sides="lr") +
+  scale_x_date(date_minor_breaks = "30 day")+
+  geom_text(data = frmLast, aes(x = dateRep, y = cumCases, label = cumCases),size = 4, vjust = 2.5, hjust= 1)+
+  geom_point(data = frmLast, aes(x = dateRep, y = cumCases), col = "Black", shape = 20, fill = "white", size = 2, stroke = 1.7)+
+  labs( title = "COVID Cumulative Cases Germany Vs. USA")
+
+# Create a table with data we need
+#Second graph is for Cumulative deaths
+
+
+# Relevant_data_needed<- covid_data_dt %>%
+#   
+#   # Select Columns
+#   select(dateRep, countriesAndTerritories, deaths, cases, popData2019) %>%
+#   group_by(countriesAndTerritories)%>%
+#   mutate(dateRep = as.Date(dateRep, "%d/%m/%Y")) %>%
+#   
+#   
+#   arrange(dateRep) %>%
+#   
+#   # Filter  (choose a country/countries)
+#   group_by(countriesAndTerritories) %>% 
+#   filter(countriesAndTerritories %in% c("Germany","United_States_of_America")) %>% 
+#   ungroup() %>%
+  
+ Deaths_Relevant_data_needed<- Relevant_data_needed %>% 
+   group_by(countriesAndTerritories) %>% 
+   mutate(cumDeaths = cumsum(deaths))
+
+frmLast <- Deaths_Relevant_data_needed %>% #last data date
+  slice(which.max(dateRep))
+
+frmFirst <- Deaths_Relevant_data_needed %>% #first data date 
+  slice(which.min(dateRep))
+
+
+# Step 2 - Visualize Cases
+Deaths_Relevant_data_needed %>%
+  
+  # Set up x, y, fill
+  ggplot(aes(x = dateRep, y = cumDeaths, group = countriesAndTerritories)) +
+  
+  # Geometries
+  geom_line(aes(color=countriesAndTerritories)) + 
+  
+  scale_y_continuous(trans = 'log10') +
+  annotation_logticks(sides="lr") +
+  scale_x_date(date_minor_breaks = "15 day")+
+  geom_text(data = frmLast, aes(x = dateRep, y = cumDeaths, label = cumDeaths),size = 4, vjust = 2.5, hjust= 1)+
+  geom_point(data = frmLast, aes(x = dateRep, y = cumDeaths), col = "Black", shape = 20, fill = "white", size = 2, stroke = 1.7)+
+  labs( title = "COVID Cumulative Deaths Germany Vs. USA")
+
+#part 3
+library("ggplot2")
+theme_set(theme_bw())
+library("sf")
+
+library("rnaturalearth")
+library("rnaturalearthdata")
+library("colorspace")
+library("scales")
+# TASK Take the covid data from the last session and map the death / 
+# cases over the time. Show the trend for the entire world as well as for Germany and the USA
+#LINE PLOT
+
+library(Quandl)
+library(lubridate)
+library(tidyverse)
+library(readxl)
+library(dplyr)
+library(data.table)
+url <- "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv"
+covid_data_dt <- fread(url)
+
+class(covid_data_dt)
+
+# Create a table with data we need
+#First graph is for Cumulative Cases
+
+covid_data_dt[,  `:=`(deaths_per_capita = deaths / popData2019,
+                                          cases_per_capita = cases / popData2019,
+                                          cases_per_deaths = cases / deaths)]
+
+covid_data_dt[, cum_deaths := cumsum(deaths)]
+
+covid_data_dt[, deaths_per_capita := (cum_deaths / popData2019)]
+
+Relevant_data_needed<- covid_data_dt %>%
+  
+  # Select Columns
+  select(dateRep, countriesAndTerritories, deaths_per_capita, countryterritoryCode) %>%
+  group_by(countriesAndTerritories)%>%
+  mutate(dateRep = as.Date(dateRep, "%d/%m/%Y")) %>%
+  
+  arrange(dateRep) 
+
+Last_Data_date <- Relevant_data_needed %>%
+  slice(which.max(dateRep))
+
+
+Last_Data_date <- rename(Last_Data_date, adm0_a3 = countryterritoryCode )
+
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+World_updated <- merge(x = Last_Data_date, y = world, 
+                       by    = "adm0_a3", 
+                       all.x = TRUE, 
+                       all.y = FALSE)
+
+# 
+# World_updated <- filter(World_updated, (cum_deaths_per_capita < 1) )
+
+ggplot(data = World_updated) +
+  geom_sf(aes(fill = deaths_per_capita, geometry = geometry)) +
+  scale_fill_viridis_c(name = "Total Deaths Per Capita", 
+                       option = "plasma", 
+                       trans = "log", 
+                       labels = comma)
+
+
+
+```
