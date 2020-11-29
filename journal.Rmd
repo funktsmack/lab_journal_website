@@ -190,9 +190,9 @@ sellers_wrangled_tbl <- sellers_joined_tbl %>%
   
   mutate(total.price = price + freight.value) %>%
   
-  select(-starts_with("product.")) %>%
+ dplyr::select(-starts_with("product.")) %>%
   
-  select(-ends_with(".date")) %>%
+ dplyr::select(-ends_with(".date")) %>%
   
   
   rename(order_date = order.purchase.timestamp) %>% 
@@ -212,7 +212,7 @@ library(lubridate)
 revenue_by_year_and_state_tbl <- sellers_wrangled_tbl %>%
   
   # Select columns and add a year
-  select(order_date, total_price, seller_city, seller_state) %>% 
+  dplyr::select(order_date, total_price, seller_city, seller_state) %>% 
   mutate(year = year(order_date)) %>%
   
   # Filter  > 1.000.000
@@ -283,6 +283,7 @@ Used the English translation of the categories and intergrated it back into the 
 # 1.0 Load libraries ----
 library(tidyverse)
 library(readxl)
+library(dplyr)
 
 
 # 2.0 Importing Files ----
@@ -319,13 +320,13 @@ order_items_wrangled_tbl <- order_items_joined_tbl %>%
   
   mutate(total.price = price + freight.value) %>%
   
-  select(-starts_with("product.")) %>%
+  dplyr::select(-starts_with("product.")) %>%
   
-  select(-ends_with(".date")) %>%
+  dplyr::select(-ends_with(".date")) %>%
   
-  bind_cols(order_items_joined_tbl %>% select(product.id)) %>% 
+  bind_cols(order_items_joined_tbl %>% dplyr::select(product.id)) %>% 
   
-  select(contains("timestamp"), contains(".id"),
+  dplyr::select(contains("timestamp"), contains(".id"),
          main.category.name, sub.category.name, price, freight.value, total.price,
          everything()) %>% 
   
@@ -345,7 +346,7 @@ library(lubridate)
 revenue_by_year_tbl <- order_items_wrangled_tbl %>%
   
   # Select Columns
-  select(order_date, total_price) %>%
+  dplyr::select(order_date, total_price) %>%
   
   # add column with year by using mutate and extracting the year from order date
   mutate(year =year(order_date)) %>%
@@ -387,7 +388,7 @@ revenue_by_year_tbl %>%
 revenue_by_year_cat_main_tbl <- order_items_wrangled_tbl %>%
   
   # Select columns and add a year
-  select(order_date, total_price, main_category_name) %>% 
+  dplyr::select(order_date, total_price, main_category_name) %>% 
   mutate(year = year(order_date)) %>%
   
   # Filter  > 1.000.000
@@ -468,7 +469,8 @@ pullout_data <- random_drink[[1]]
 
 #Code to reduce number of columns and also filter out NA columns
 your_random_drink <- as_tibble(pullout_data) %>% 
-  select(strDrink ,strAlcoholic, strInstructions,strGlass, 
+ 
+dplyr::select(strDrink ,strAlcoholic, strInstructions,strGlass, 
          strIngredient1:strIngredient7, strMeasure1:strMeasure7) %>% select_if(~sum(!is.na(.)) > 0)
 
 print(your_random_drink)
@@ -507,9 +509,14 @@ Item_price <- html_home %>%
   
   html_nodes(css = ".a-price-whole") %>%
   
-  html_text()  
+  html_text() 
 
-Gaming_pc_tbl <- tibble(Name_items, Item_price)
+
+GamingName_pc_tbl <- tibble(Name_items) %>% slice(1:18)
+
+GamingPrice_pc_tbl <- tibble(Item_price)
+
+Final_table <- tibble(GamingName_pc_tbl,GamingPrice_pc_tbl)
 
 
 ```
@@ -533,7 +540,7 @@ Take the covid data from the last session and map the death / cases over the tim
 
 Optional: Create a worldmap and color the countries according to the fatality (total deaths per capita). If it is easier for you, you can do it also just for the states of the USA or any other state (you need to get a different dataset though).
 
-```{r}
+```{r DataVisualization, message=TRUE, warning=TRUE, paged.print=TRUE}
 #part 1
 
 # SALES ANALYSIS WITH ENGLISH TRANSLATION ----
@@ -541,8 +548,10 @@ Optional: Create a worldmap and color the countries according to the fatality (t
 # 1.0 Load libraries ----
 library(tidyverse)
 library(readxl)
-
-
+library(purrr)
+library(magrittr)
+library(base)
+library(dplyr)
 # 2.0 Importing Files ----
 # A good convention is to use the csv file name and suffix it with tbl for the data structure tibble
 order_items_tbl <- read_csv(file = "Rstudio/DS_business_case_01/00_data/01_e-commerce/01_raw_data/olist_order_items_dataset.csv") 
@@ -577,13 +586,13 @@ order_items_wrangled_tbl <- order_items_joined_tbl %>%
   
   mutate(total.price = price + freight.value) %>%
   
-  select(-starts_with("product.")) %>%
+  dplyr::select(-starts_with("product.")) %>%
   
-  select(-ends_with(".date")) %>%
+  dplyr::select(-ends_with(".date")) %>%
   
-  bind_cols(order_items_joined_tbl %>% select(product.id)) %>% 
+  bind_cols(order_items_joined_tbl %>% dplyr::select(product.id)) %>% 
   
-  select(contains("timestamp"), contains(".id"),
+  dplyr::select(contains("timestamp"), contains(".id"),
          main.category.name, sub.category.name, price, freight.value, total.price,
          everything()) %>% 
   
@@ -603,7 +612,7 @@ library(lubridate)
 revenue_by_year_tbl <- order_items_wrangled_tbl %>%
   
   # Select Columns
-  select(order_date, total_price) %>%
+  dplyr::select(order_date, total_price) %>%
   
   # add column with year by using mutate and extracting the year from order date
   mutate(year =year(order_date)) %>%
@@ -645,7 +654,7 @@ revenue_by_year_tbl %>%
 revenue_by_year_cat_main_tbl <- order_items_wrangled_tbl %>%
   
   # Select columns and add a year
-  select(order_date, total_price, main_category_name) %>% 
+  dplyr::select(order_date, total_price, main_category_name) %>% 
   mutate(year = year(order_date)) %>%
   
   # Filter  > 1.000.000
@@ -691,7 +700,7 @@ revenue_by_year_cat_main_tbl %>%
 price_by_year_cat_main_tbl <- order_items_wrangled_tbl %>%
   
   # Select columns and add a year
-  select(order_date, total_price, main_category_name) %>% 
+  dplyr::select(order_date, total_price, main_category_name) %>% 
   mutate(year = year(order_date)) %>%
   
 
@@ -788,7 +797,7 @@ class(covid_data_dt)
 Relevant_data_needed<- covid_data_dt %>%
   
   # Select Columns
-  select(dateRep, countriesAndTerritories, deaths, cases, popData2019) %>%
+  dplyr::select(dateRep, countriesAndTerritories, deaths, cases, popData2019) %>%
  group_by(countriesAndTerritories)%>%
   mutate(dateRep = as.Date(dateRep, "%d/%m/%Y")) %>%
   
@@ -909,7 +918,7 @@ covid_data_dt[, deaths_per_capita := (cum_deaths / popData2019)]
 Relevant_data_needed<- covid_data_dt %>%
   
   # Select Columns
-  select(dateRep, countriesAndTerritories, deaths_per_capita, countryterritoryCode) %>%
+  dplyr::select(dateRep, countriesAndTerritories, deaths_per_capita, countryterritoryCode) %>%
   group_by(countriesAndTerritories)%>%
   mutate(dateRep = as.Date(dateRep, "%d/%m/%Y")) %>%
   
@@ -941,3 +950,1622 @@ ggplot(data = World_updated) +
 
 
 ```
+
+# Machine Learning Fundementals
+
+Company Segmentation with Stock Prices
+
+Download the following .zip file. It contains a .Rmd file with all instructions and intermediate results in the case you might get stuck. You can knit the .Rmd file to a pdf file by clicking the knit button.
+
+```{r}
+
+library(tidyverse)
+library(tidyquant)
+library(broom)
+library(umap)
+library(readr)
+library(purrr)
+
+
+```
+
+```{r}
+
+# STOCK PRICES
+sp_500_prices_tbl <- read_rds("Rstudio/00_scripts/session_6_data/session_6_data/sp_500_prices_tbl.rds")
+sp_500_prices_tbl
+
+
+
+
+
+# SECTOR INFORMATION
+sp_500_index_tbl <- read_rds("Rstudio/00_scripts/session_6_data/session_6_data/sp_500_index_tbl.rds")
+sp_500_index_tbl
+
+
+
+
+
+
+
+sp_500_prices_tbl %>% glimpse()
+
+
+```
+
+```{r}
+# Apply your data transformation skills!
+
+# Create a table
+library(data.table)
+sp_500_daily_returns_tbl <- sp_500_prices_tbl %>%
+  
+ 
+  dplyr::select(symbol, date, adjusted) %>%
+  
+  mutate(year =year(date)) %>%
+  
+  filter(year >= 2018) %>%
+  
+  group_by(symbol) %>% 
+  
+  mutate(lag = shift(adjusted, 1, type = 'lead') ) %>%
+  
+  na.omit() %>%
+  
+  mutate(pct_return = ((lag-adjusted)/adjusted)) %>%
+  
+  dplyr::select(symbol, date, pct_return)
+
+# Output: sp_500_daily_returns_tbl
+
+```
+
+
+
+```{r}
+# Convert to User-Item Format
+
+stock_date_matrix_tbl <- sp_500_daily_returns_tbl %>%
+
+    pivot_wider(names_from = date, values_from = pct_return, values_fill = 0)
+
+stock_date_matrix_tbl[is.na(stock_date_matrix_tbl)] <- 0
+# Output: stock_date_matrix_tbl
+
+
+```
+
+
+```{r}
+stock_date_matrix_tbl <- read_rds("Rstudio/00_scripts/session_6_data/session_6_data/stock_date_matrix_tbl.rds")
+
+
+
+# Create kmeans_obj for 4 centers
+
+
+kmeans_obj <- stock_date_matrix_tbl %>%
+    dplyr::select(-symbol) %>%
+    kmeans(centers = 4, nstart = 20)
+
+
+
+
+# Apply glance() to get the tot.withinss
+
+# return the overall summary metrics for the model
+# Including the tot.withinss for the skree plot
+broom::glance(kmeans_obj)
+
+# # Add the clusters to the data
+# broom::augment(kmeans_obj, customer_product_tbl) %>%
+#     select(STORE_NAME, .cluster)
+
+
+```
+
+```{r}
+
+## Step 4 - Find the optimal value of K
+
+
+kmeans_mapper <- function(center = 3) {
+    stock_date_matrix_tbl %>%
+        dplyr::select(-symbol) %>%
+        kmeans(centers = center, nstart = 20)
+}
+
+
+
+# Use purrr to map
+
+kmeans_mapped_tbl <- tibble(centers = 1:30) %>%
+    mutate(k_means = centers %>% map(kmeans_mapper)) %>%
+    mutate(glance  = k_means %>% map(glance))
+
+
+# Output: k_means_mapped_tbl 
+
+```
+
+
+```{r}
+# Visualize Scree Plot
+
+kmeans_mapped_tbl %>%
+    unnest(glance) %>%
+    dplyr::select(centers, tot.withinss) %>%
+    
+    # Visualization
+    ggplot(aes(centers, tot.withinss)) +
+    geom_point(color = "#2DC6D6", size = 4) +
+    geom_line(color = "#2DC6D6", size = 1) +
+    # Add labels (which are repelled a little)
+    ggrepel::geom_label_repel(aes(label = centers), color = "#2DC6D6") + 
+    
+    # Formatting
+    labs(
+        title = "Skree Plot",
+        subtitle = "Measures the distance each of the XXX are from the closes K-Means center"
+    )
+
+
+k_means_mapped_tbl <- read_rds("Rstudio/00_scripts/session_6_data/session_6_data/k_means_mapped_tbl.rds")
+
+```
+
+```{r}
+# Apply UMAP
+
+umap_results <- stock_date_matrix_tbl %>%
+    dplyr::select(-symbol) %>%
+    umap()
+
+
+# Store results as: umap_results 
+
+
+# Convert umap results to tibble with symbols
+
+umap_results_tbl <- umap_results$layout %>%
+    as_tibble() %>%
+    set_names(c("x", "y")) %>%
+    bind_cols(
+        stock_date_matrix_tbl %>% dplyr::select(symbol)
+    )
+
+# Output: umap_results_tbl
+```
+
+
+```{r}
+
+# Visualize UMAP results
+library(ggrepel)
+umap_results_tbl %>%
+    ggplot(aes(x, y)) +
+    geom_point(alpha=0.5) +
+    theme_tq() +
+
+labs(
+        title = "UMAP Projection"
+    )
+
+```
+
+
+```{r}
+## Step 6 - Combine K-Means and UMAP
+
+
+k_means_mapped_tbl <- read_rds("Rstudio/00_scripts/session_6_data/session_6_data/k_means_mapped_tbl.rds")
+umap_results_tbl   <- read_rds("Rstudio/00_scripts/session_6_data/session_6_data/umap_results_tbl.rds")
+
+
+
+# Get the k_means_obj from the 10th center
+
+umap_results_tbl
+
+# Get the data for the third element (which we have chosen in the skree plot)
+k_means_obj <- k_means_mapped_tbl %>%
+   pull(k_means) %>%
+   pluck(9)
+
+```
+
+
+```{r}
+
+# Store as k_means_obj
+
+# Use your dplyr & broom skills to combine the k_means_obj with the umap_results_tbl
+
+# Convert it to a tibble with broom
+#kmeans_10_clusters_tbl <- k_means_obj %>% 
+    #augment(stock_date_matrix_tbl) %>%
+   # dplyr::select(symbol, .cluster) %>% 
+#left_join(umap_results_tbl)  
+
+#SP_500_left_join <- sp_500_index_tbl %>% select(symbol, company, sector)
+
+#umap_kmeans_results_tbl <- kmeans_10_clusters_tbl %>%  left_join(SP_500_left_join)
+
+# Output: umap_kmeans_results_tbl 
+```
+
+
+```{r}
+# Visualize the combined K-Means and UMAP results
+
+#umap_kmeans_results_tbl  %>%
+  #  mutate(label_text = str_glue("symbol: {symbol}
+                                # Cluster: {.cluster}")) %>%
+    
+  #  ggplot(aes(x = V1, y = V2, color = .cluster)) +
+    
+    # Geometries
+  #  geom_point(alpha  = 0.5) 
+    
+    # Formatting
+
+```
+
+# Supervised Machine Learning
+In this session we did not use the recipes packages to prepare our data. This is going to be your challenge. For further information take a look at the last session or just use google. Prepare the data for the models with the steps provided below. But this time use all features provided (not just detected strings in two columns). Remember, you don’t need to set the flags by yourself (see all_nominal()).
+
+
+
+```{r SupervisedML Regress}
+
+# Standard
+library(tidyverse)
+
+# Modeling
+library(parsnip)
+
+# Preprocessing & Sampling
+library(recipes)
+library(rsample)
+
+# Modeling Error Metrics
+library(yardstick)
+
+# Plotting Decision Trees
+library(rpart.plot)
+library(workflows)
+library(dplyr)
+  
+# Modeling ----------------------------------------------------------------
+
+bike_features_tbl <- readRDS("C:/Users/Shawn/Documents/Rstudio/00_data/ChallengeLinearRegress/bike_features_tbl.rds")
+
+
+bike_features_tbl2 <- bike_features_tbl %>% 
+  
+  mutate(id = row_number()) %>% 
+  
+  dplyr::select(id, everything(), -stock_availability, -url_base, -Pedals,-Modeswitch,-`Bike Racks`,-`Wheel Tire System`) %>%
+  
+  mutate_if(is.numeric, ~replace(., is.na(.), 0))
+
+
+
+names(bike_features_tbl2) <- gsub(" ", "_", names(bike_features_tbl2))
+names(bike_features_tbl2) <- gsub("/", "_", names(bike_features_tbl2))
+names(bike_features_tbl2) <- gsub("-", "_", names(bike_features_tbl2))
+
+# Fix the random numbers by setting the seed 
+# This enables the analysis to be reproducible when random numbers are used 
+set.seed(555)
+# Put 3/4 of the data into the training set 
+data_split <- initial_split(bike_features_tbl2, prop = 3/4)
+
+# Create data frames for the two sets:
+train_data <- training(data_split)
+test_data  <- testing(data_split)
+
+# 
+# ?recipe
+# ?step_dummy
+# ?prep
+# ?bake
+
+# recipe_obj <- recipe(price_euro ~., data = train_data) %>% 
+#   update_role(id, model, new_role = "ID") %>% 
+#   step_rm(contains("Manu"), contains("shift"), contains('hand')) %>%
+#   step_dummy(all_nominal(), - all_outcomes(), one_hot = TRUE) %>%
+#   
+#   # SET NA's to NONE
+#   step_unknown(all_predictors(), new_level = "None") %>%
+#   step_mutate_at(everything(), fn = as.factor)  %>%
+# 
+#  
+#   step_zv(all_predictors()) %>% step_nzv(all_predictors())
+
+recipe_obj <- recipe(price_euro ~ ., data = train_data) %>%
+  
+  step_rm(id, model, contains("Manuals_and_Accessories_")) %>%
+  step_rm(contains("Manu"), contains("shift"), contains('hand')) %>%
+  step_discretize(weight) %>%
+  
+  # SET NA's to NONE
+  step_unknown(all_predictors(), new_level = "None") %>%
+  
+  step_zv(all_predictors()) %>%
+  step_dummy(all_nominal(), one_hot = TRUE)
+
+
+
+summary(recipe_obj)
+
+
+prepared_recipe <- recipe_obj %>% prep()
+summary(prepared_recipe)
+
+bike_train_prepro <- bake(prepared_recipe, train_data)
+bike_test_prepro <- bake(prepared_recipe, test_data)
+
+
+lr_mod <-
+  linear_reg() %>%
+  set_engine("lm")
+
+
+bikes_wflow <- 
+  workflows::workflow() %>% 
+ add_model(lr_mod) %>% 
+ add_recipe(recipe_obj)
+
+
+bikes_fit <- 
+  bikes_wflow %>% 
+  fit(
+    data = train_data)
+
+bikes_fit %>% 
+  pull_workflow_fit() %>% 
+  tidy()
+
+predict(bikes_fit, test_data)
+
+bikes_pred <- 
+  predict(bikes_fit, test_data) %>% 
+  bind_cols(test_data %>% dplyr::select(price_euro, model, category_1))
+
+bikes_fit %>% predict(new_data = test_data)
+
+bikes_fit %>%
+  predict(new_data = test_data) %>%
+  
+  bind_cols(test_data %>% dplyr::select(price_euro)) %>%
+
+  
+  yardstick::metrics(truth = price_euro, estimate = .pred)
+
+calc_metrics <- function(model, new_data = test_data) {
+  
+  model %>%
+    predict(new_data = new_data) %>%
+    
+    bind_cols(new_data %>% dplyr::select(price_euro)) %>%
+    yardstick::metrics(truth = price_euro, estimate = .pred)
+  
+}
+
+bikes_fit %>% calc_metrics(test_data)
+
+
+# 3.1.2 Feature Importance ----
+#View(bikes_fit) # You will see the coefficients in the element "fit"
+
+# tidy() function is applicable for objects with class "lm"
+#bikes_fit$fit %>% class()
+
+#bikes_fit$fit %>%
+ # broom::tidy() %>%
+  #arrange(p.value) %>%
+ # mutate(term = as_factor(term) %>% fct_rev()) %>%
+  
+  #ggplot(aes(x = estimate, y = term)) +
+ # geom_point(color = "#2dc6d6", size = 3) +
+ # ggrepel::geom_label_repel(aes(label = scales::dollar(estimate, accuracy = 1, suffix = " ???", prefix = "")),
+                         #   size = 4, fill = "#272A36", color = "white") +
+ # scale_x_continuous(labels = scales::dollar_format(suffix = " ???", prefix = "")) +
+ # labs(title = "Linear Regression: Feature Importance",
+   #    subtitle = "Model 01: Simple lm Model") 
+       
+```
+
+
+# Automated Machine Learning with H20
+For the challenge, we shall be working with a Product Backorders dataset. The goal here is to predict whether or not a product will be put on backorder status, given a number of product metrics such as current inventory, transit time, demand forecasts and prior sales. It’s a classic Binary Classification problem. 
+
+Steps:
+
+Load the training & test dataset
+Specifiy the response and predictor variables (watch out for the column “sku”)
+run AutoML specifying the stopping criterion
+View the leaderboard
+Predicting using Leader Model
+Save the leader model
+
+```{r Auto ML H20}
+# Load data
+library(tidyverse)
+library(readxl)
+
+library(h2o)
+library(recipes)
+library(readr)
+library(readxl)
+library(rsample)
+
+
+product_backorders_tbl <- read_csv("C:/Users/Shawn/Documents/Rstudio/00_data/H20/product_backorders.csv")
+# definitions_raw_tbl    <- read_excel("C:/Users/Shawn/Documents/Rstudio/00_data/H20/data_definitions.xlsx", sheet = 1, col_names = FALSE)
+# View(definitions_raw_tbl)
+# H2O modeling
+
+
+data_table_tbl <- 
+  product_backorders_tbl %>%
+  mutate_if(is.character, as.factor) %>%
+  glimpse()
+
+data_table_tbl%>%
+  mutate_if(is.character, as.factor) %>%
+  select_if(is.factor) %>%
+  glimpse()
+
+data_table_tbl %>%
+  mutate_if(is.character, as.factor) %>%
+  select_if(is.factor) %>%
+  map(levels)
+
+set.seed(seed = 1113)
+split_obj                       <- rsample::initial_split(data_table_tbl, prop = 0.85)
+train_readable_tbl              <- training(split_obj)
+test_readable_tbl               <- testing(split_obj)
+
+recipe_obj <- recipe(went_on_backorder ~., data = train_readable_tbl) %>% 
+  update_role(sku, new_role = "ID") %>%
+  step_zv(all_predictors()) %>% 
+  prep()
+
+train_tbl <- bake(recipe_obj, new_data = train_readable_tbl)
+test_tbl  <- bake(recipe_obj, new_data = test_readable_tbl)
+
+# Modeling
+h2o.init()
+
+# Split data into a training and a validation data frame
+# Setting the seed is just for reproducability
+split_h2o <- h2o.splitFrame(as.h2o(train_tbl), ratios = c(0.85), seed = 1234)
+train_h2o <- split_h2o[[1]]
+valid_h2o <- split_h2o[[2]]
+test_h2o  <- as.h2o(test_tbl)
+
+# Set the target and predictors
+y <- "went_on_backorder"
+x <- setdiff(names(train_h2o), y)
+
+automl_models_h2o <- h2o.automl(
+  x = x,
+  y = y,
+  training_frame    = train_h2o,
+  validation_frame  = valid_h2o,
+  leaderboard_frame = test_h2o,
+  max_runtime_secs  = 30,
+  nfolds            = 5 
+)
+
+typeof(automl_models_h2o)
+
+slotNames(automl_models_h2o)
+
+automl_models_h2o@leaderboard
+
+automl_models_h2o@leader
+
+```
+
+
+
+```{r Auto ML H202}
+# Depending on the algorithm, the output will be different
+#h2o.getModel("GBM_grid__1_AutoML_20201128_192518_model_1")
+
+extract_h2o_model_name_by_position <- function(h2o_leaderboard, n = 1, verbose = T) {
+  
+  model_name <- h2o_leaderboard %>%
+    as_tibble() %>%
+    slice(n) %>%
+    pull(model_id)
+  
+  if (verbose) message(model_name)
+  
+  return(model_name)
+  
+}
+
+automl_models_h2o@leaderboard %>% 
+  extract_h2o_model_name_by_position(6) %>% 
+  h2o.getModel()
+
+
+#h2o.getModel("GBM_grid__1_AutoML_20201128_192518_model_1") %>% 
+#  h2o.saveModel(path = "C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models")
+
+h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/GBM_grid__1_AutoML_20201128_192518_model_1")
+
+# Choose whatever model you want
+stacked_ensemble_h2o <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/GBM_grid__1_AutoML_20201128_192518_model_1")
+stacked_ensemble_h2o
+
+predictions <- h2o.predict(stacked_ensemble_h2o, newdata = as.h2o(test_tbl))
+
+typeof(predictions)
+## [1] "environment"
+
+predictions_tbl <- predictions %>% as_tibble()
+
+deep_learning_h2o <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/GBM_grid__1_AutoML_20201128_192518_model_1")
+
+# To see all possible parameters
+?h2o.deeplearning
+
+# to get all paramteres
+deep_learning_h2o@allparameters
+
+
+
+```
+
+#Performance Measures
+
+Apply all the steps you have learned in this session on the dataset from challenge of the last session (Product Backorders):
+
+Leaderboard visualization
+Tune a model with grid search
+Visualize the trade of between the precision and the recall and the optimal threshold
+ROC Plot
+Precision vs Recall Plot
+Gain Plot
+Lift Plot
+Dashboard with cowplot
+
+
+```{r Performance Measures}
+
+# Load data
+library(tidyverse)
+library(readxl)
+
+library(h2o)
+library(recipes)
+library(readr)
+library(readxl)
+library(rsample)
+
+
+
+product_backorders_tbl <- read_csv("C:/Users/Shawn/Documents/Rstudio/00_data/H20/product_backorders.csv")
+# definitions_raw_tbl    <- read_excel("C:/Users/Shawn/Documents/Rstudio/00_data/H20/data_definitions.xlsx", sheet = 1, col_names = FALSE)
+# View(definitions_raw_tbl)
+# H2O modeling
+
+
+data_table_tbl <- 
+  product_backorders_tbl %>%
+  mutate_if(is.character, as.factor) %>%
+  glimpse()
+
+data_table_tbl%>%
+  mutate_if(is.character, as.factor) %>%
+  select_if(is.factor) %>%
+  glimpse()
+
+data_table_tbl %>%
+  mutate_if(is.character, as.factor) %>%
+  select_if(is.factor) %>%
+  map(levels)
+
+set.seed(seed = 1113)
+split_obj                       <- rsample::initial_split(data_table_tbl, prop = 0.85)
+train_readable_tbl              <- training(split_obj)
+test_readable_tbl               <- testing(split_obj)
+
+recipe_obj <- recipe(went_on_backorder ~., data = train_readable_tbl) %>% 
+  update_role(sku, new_role = "ID") %>%
+  step_zv(all_predictors()) %>% 
+  prep()
+
+train_tbl <- bake(recipe_obj, new_data = train_readable_tbl)
+test_tbl  <- bake(recipe_obj, new_data = test_readable_tbl)
+
+# Modeling
+h2o.init()
+
+# Split data into a training and a validation data frame
+# Setting the seed is just for reproducability
+split_h2o <- h2o.splitFrame(as.h2o(train_tbl), ratios = c(0.85), seed = 1234)
+train_h2o <- split_h2o[[1]]
+valid_h2o <- split_h2o[[2]]
+test_h2o  <- as.h2o(test_tbl)
+
+# Set the target and predictors
+y <- "went_on_backorder"
+x <- setdiff(names(train_h2o), y)
+
+automl_models_h2o <- h2o.automl(
+  x = x,
+  y = y,
+  training_frame    = train_h2o,
+  validation_frame  = valid_h2o,
+  leaderboard_frame = test_h2o,
+  max_runtime_secs  = 30,
+  nfolds            = 5 
+)
+
+typeof(automl_models_h2o)
+
+slotNames(automl_models_h2o)
+
+automl_models_h2o@leaderboard
+
+automl_models_h2o@leaderboard %>% 
+  as_tibble() %>% 
+  dplyr::select(-c(mean_per_class_error, rmse, mse))
+
+automl_models_h2o@leader
+
+
+# Depending on the algorithm, the output will be different
+#h2o.getModel("StackedEnsemble_AllModels_AutoML_20201128_193626")
+
+extract_h2o_model_name_by_position <- function(h2o_leaderboard, n = 1, verbose = T) {
+  
+  model_name <- h2o_leaderboard %>%
+    as_tibble() %>%
+    slice(n) %>%
+    pull(model_id)
+  
+  if (verbose) message(model_name)
+  
+  return(model_name)
+  
+}
+
+automl_models_h2o@leaderboard %>% 
+  extract_h2o_model_name_by_position(6) %>% 
+  h2o.getModel()
+
+
+#h2o.getModel("StackedEnsemble_AllModels_AutoML_20201128_193626") %>% 
+#  h2o.saveModel(path = "C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models")
+
+h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/StackedEnsemble_AllModels_AutoML_20201128_193626")
+
+# Choose whatever model you want
+stacked_ensemble_h2o <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/StackedEnsemble_AllModels_AutoML_20201128_193626")
+stacked_ensemble_h2o
+
+predictions <- h2o.predict(stacked_ensemble_h2o, newdata = as.h2o(test_tbl))
+
+typeof(predictions)
+## [1] "environment"
+
+predictions_tbl <- predictions %>% as_tibble()
+
+deep_learning_h2o <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/StackedEnsemble_AllModels_AutoML_20201128_193626")
+
+# To see all possible parameters
+?h2o.deeplearning
+
+# to get all paramteres
+deep_learning_h2o@allparameters
+
+###NEW START HERE###
+
+automl_models_h2o@leaderboard %>% 
+  as_tibble() %>% 
+  dplyr::select(-c(mean_per_class_error, rmse, mse))
+
+
+# Visualize the H2O leaderboard to help with model selection
+data_transformed_tbl <- automl_models_h2o@leaderboard %>%
+  as_tibble() %>%
+  dplyr::select(-c(aucpr, mean_per_class_error, rmse, mse)) %>% 
+  mutate(model_type = str_extract(model_id, "[^_]+")) %>%
+  slice(1:15) %>% 
+  rownames_to_column(var = "rowname") %>%
+  # Visually this step will not change anything
+  # It reorders the factors under the hood
+  mutate(
+    model_id   = as_factor(model_id) %>% reorder(auc),
+    model_type = as.factor(model_type)
+  ) %>% 
+  pivot_longer(cols = -c(model_id, model_type, rowname), 
+               names_to = "key", 
+               values_to = "value", 
+               names_transform = list(key = forcats::fct_inorder)
+  ) %>% 
+  mutate(model_id = paste0(rowname, ". ", model_id) %>% as_factor() %>% fct_rev())
+
+data_transformed_tbl %>%
+  ggplot(aes(value, model_id, color = model_type)) +
+  geom_point(size = 3) +
+  geom_label(aes(label = round(value, 2), hjust = "inward")) +
+  
+  # Facet to break out logloss and auc
+  facet_wrap(~ key, scales = "free_x") +
+  labs(title = "Leaderboard Metrics",
+       subtitle = paste0("Ordered by: ", "auc"),
+       y = "Model Postion, Model ID", x = "") + 
+  theme(legend.position = "bottom")
+
+
+
+plot_h2o_leaderboard <- function(h2o_leaderboard, order_by = c("auc", "logloss"), 
+                                 n_max = 20, size = 4, include_lbl = TRUE) {
+  
+  # Setup inputs
+  # adjust input so that all formats are working
+  order_by <- tolower(order_by[[1]])
+  
+  leaderboard_tbl <- h2o_leaderboard %>%
+    as.tibble() %>%
+    dplyr::select(-c(aucpr, mean_per_class_error, rmse, mse)) %>% 
+    mutate(model_type = str_extract(model_id, "[^_]+")) %>%
+    rownames_to_column(var = "rowname") %>%
+    mutate(model_id = paste0(rowname, ". ", model_id) %>% as.factor())
+  
+  # Transformation
+  if (order_by == "auc") {
+    
+    data_transformed_tbl <- leaderboard_tbl %>%
+      slice(1:n_max) %>%
+      mutate(
+        model_id   = as_factor(model_id) %>% reorder(auc),
+        model_type = as.factor(model_type)
+      ) %>%
+      pivot_longer(cols = -c(model_id, model_type, rowname), 
+                   names_to = "key", 
+                   values_to = "value", 
+                   names_transform = list(key = forcats::fct_inorder)
+      )
+    
+  } else if (order_by == "logloss") {
+    
+    data_transformed_tbl <- leaderboard_tbl %>%
+      slice(1:n_max) %>%
+      mutate(
+        model_id   = as_factor(model_id) %>% reorder(logloss) %>% fct_rev(),
+        model_type = as.factor(model_type)
+      ) %>%
+      pivot_longer(cols = -c(model_id, model_type, rowname), 
+                   names_to = "key", 
+                   values_to = "value", 
+                   names_transform = list(key = forcats::fct_inorder)
+      )
+    
+  } else {
+    # If nothing is supplied
+    stop(paste0("order_by = '", order_by, "' is not a permitted option."))
+  }
+  
+  # Visualization
+  g <- data_transformed_tbl %>%
+    ggplot(aes(value, model_id, color = model_type)) +
+    geom_point(size = size) +
+    facet_wrap(~ key, scales = "free_x") +
+    labs(title = "Leaderboard Metrics",
+         subtitle = paste0("Ordered by: ", toupper(order_by)),
+         y = "Model Postion, Model ID", x = "")
+  
+  if (include_lbl) g <- g + geom_label(aes(label = round(value, 2), 
+                                           hjust = "inward"))
+  
+  return(g)
+  
+}
+
+
+StackedEnsemble_h2o <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/StackedEnsemble_AllModels_AutoML_20201128_193626")
+
+# Take a look for the metrics on the training data set
+# For my model the total error in the confusion matrix is ~15 %
+StackedEnsemble_h2o
+
+# We want to see how it performs for the testing data frame
+test_tbl
+
+# Make sure to convert it to an h20 object
+# Accuracy of the confusion matrix shows ~85 % accuracy
+h2o.performance(StackedEnsemble_h2o, newdata = as.h2o(test_tbl))
+#
+#GRID SEARCH
+#stackedensemble_grid_01 <- h2o.grid(
+  
+  # See help page for available algos
+  #algorithm = "deeplearning",
+  
+  # I just use the same as the object
+  #grid_id = "deeplearning_grid_01",
+  
+  # The following is for ?h2o.deeplearning()
+  # predictor and response variables
+ # x = x,
+ # y = y,
+  
+  # training and validation frame and crossfold validation
+  #training_frame   = train_h2o,
+  #validation_frame = valid_h2o,
+  #nfolds = 5,
+  
+  # Hyperparamters: Use deeplearning_h2o@allparameters to see all
+  #hyper_params = list(
+    # Use some combinations (the first one was the original)
+  #  hidden = list(c(10, 10, 10), c(50, 20, 10), c(20, 20, 20)),
+  ##  epochs = c(10, 50, 100)
+  #)
+#)
+
+
+h2o.getGrid(grid_id = "deeplearning_grid_01", sort_by = "auc", decreasing = TRUE)
+
+
+
+
+deeplearning_grid_01_model_1 <- h2o.getModel("deeplearning_grid_01_model_1")
+
+deeplearning_grid_01_model_1 %>% h2o.auc(train = T, valid = T, xval = T)
+##     train     valid      xval 
+## 0.9093134 0.7922078 0.8299115 
+
+# We can tell the model is overfitting because of the huge difference between training AUC and the validation / cross validation AUC
+
+# Run it on the test data
+deeplearning_grid_01_model_1 %>%
+  h2o.performance(newdata = as.h2o(test_tbl))
+
+
+stacked_ensemble_h2o <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/Model_Use/StackedEnsemble_AllModels_AutoML_20201117_210018")
+deeplearning_h2o     <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/Model_Use/DeepLearning_1_AutoML_20201116_111957")
+glm_h2o              <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/Model_Use/GBM_grid__1_AutoML_20200914_212908_model_1")
+
+
+performance_h2o <- h2o.performance(stacked_ensemble_h2o, newdata = as.h2o(test_tbl))
+
+typeof(performance_h2o)
+performance_h2o %>% slotNames()
+
+performance_h2o@metrics
+
+h2o.auc(performance_h2o, train = T, valid = T, xval = T)
+## [1] 0.8588763
+
+# Caution: "train, "val", and "xval" arugments only work for models (not performance objects)
+h2o.auc(stacked_ensemble_h2o, train = T, valid = T, xval = T)
+##     train     valid      xval 
+## 0.9892475 0.8219522 0.8383290 
+
+h2o.giniCoef(performance_h2o)
+## [1] 0.7177527
+h2o.logloss(performance_h2o)
+## [1] 0.2941769
+
+# result for the training data
+h2o.confusionMatrix(stacked_ensemble_h2o)
+
+# result for the hold out set
+h2o.confusionMatrix(performance_h2o)
+
+
+# Precision vs Recall Plot
+performance_tbl <- performance_h2o %>%
+  h2o.metric() %>%
+  as_tibble() 
+
+performance_tbl %>% 
+  glimpse()
+
+theme_new <- theme(
+  legend.position  = "bottom",
+  legend.key       = element_blank(),
+  panel.background = element_rect(fill   = "transparent"),
+  panel.border     = element_rect(color = "black", fill = NA, size = 0.5),
+  panel.grid.major = element_line(color = "grey", size = 0.333)
+) 
+
+performance_tbl %>%
+  filter(f1 == max(f1))
+
+performance_tbl %>%
+  ggplot(aes(x = threshold)) +
+  geom_line(aes(y = precision), color = "blue", size = 1) +
+  geom_line(aes(y = recall), color = "red", size = 1) +
+  
+  # Insert line where precision and recall are harmonically optimized
+  geom_vline(xintercept = h2o.find_threshold_by_max_metric(performance_h2o, "f1")) +
+  labs(title = "Precision vs Recall", y = "value") +
+  theme_new
+
+#stacked_ensemble_h2o <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/StackedEnsemble_AllModels_AutoML_20201117_210018")
+#deeplearning_h2o     <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/DeepLearning_1_AutoML_20201116_111957")
+#glm_h2o              <- h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/GBM_grid__1_AutoML_20200914_212908_model_1")
+
+# ROC Plot
+
+path <- "StackedEnsemble_AllModels_AutoML_20201117_210018"
+path2 <-"C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/Model_Use/StackedEnsemble_AllModels_AutoML_20201117_210018"
+
+load_model_performance_metrics <- function(path, test_tbl) {
+  
+  model_h2o <- h2o.loadModel(path)
+  perf_h2o  <- h2o.performance(model_h2o, newdata = as.h2o(test_tbl)) 
+  
+  perf_h2o %>%
+    h2o.metric() %>%
+    as_tibble() %>%
+    mutate(auc = h2o.auc(perf_h2o)) %>%
+    dplyr::select(tpr, fpr, auc)
+  
+}
+
+model_metrics_tbl <- fs::dir_info(path = "C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/Model_Use/") %>%
+  dplyr::select(path) %>%
+  mutate(metrics = map(path, load_model_performance_metrics, test_tbl)) %>%
+  unnest(cols = metrics)
+
+
+
+model_metrics_tbl %>%
+  mutate(
+    # Extract the model names
+    path = str_split(path, pattern = "/", simplify = T)[,3] %>% as_factor(),
+    auc  = auc %>% round(3) %>% as.character() %>% as_factor()
+  ) %>%
+  ggplot(aes(fpr, tpr, color = path, linetype = auc)) +
+  geom_line(size = 1) +
+  
+  # just for demonstration purposes
+  geom_abline(color = "red", linetype = "dotted") +
+  
+  theme_new +
+  theme(
+    legend.direction = "vertical",
+  ) +
+  labs(
+    title = "ROC Plot",
+    subtitle = "Performance of 3 User Selected Models"
+  )
+
+# Precision vs Recall
+
+load_model_performance_metrics <- function(path, test_tbl) {
+  
+  model_h2o <- h2o.loadModel(path)
+  perf_h2o  <- h2o.performance(model_h2o, newdata = as.h2o(test_tbl)) 
+  
+  perf_h2o %>%
+    h2o.metric() %>%
+    as_tibble() %>%
+    mutate(auc = h2o.auc(perf_h2o)) %>%
+    dplyr::select(tpr, fpr, auc, precision, recall)
+  
+}
+
+
+model_metrics_tbl <- fs::dir_info(path = "C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/Model_Use/") %>%
+  dplyr::select(path) %>%
+  mutate(metrics = map(path, load_model_performance_metrics, test_tbl)) %>%
+  unnest(cols = metrics)
+
+
+model_metrics_tbl %>%
+  mutate(
+    path = str_split(path, pattern = "/", simplify = T)[,3] %>% as_factor(),
+    auc  = auc %>% round(3) %>% as.character() %>% as_factor()
+  ) %>%
+  ggplot(aes(recall, precision, color = path, linetype = auc)) +
+  geom_line(size = 1) +
+  theme_new + 
+  theme(
+    legend.direction = "vertical",
+  ) +
+  labs(
+    title = "Precision vs Recall Plot",
+    subtitle = "Performance of 3 Top Performing Models"
+  )
+
+
+#Gain & Lift
+
+ranked_predictions_tbl <- predictions_tbl %>%
+  bind_cols(test_tbl) %>%
+  dplyr::select(predict:Yes, went_on_backorder) %>%
+  # Sorting from highest to lowest class probability
+  arrange(desc(Yes))
+
+
+ranked_predictions_tbl %>%
+  mutate(ntile = ntile(Yes, n = 10)) %>%
+  group_by(ntile) %>%
+  summarise(
+    cases = n(),
+    responses = sum(went_on_backorder == "Yes")
+  ) %>%
+  arrange(desc(ntile))
+
+
+calculated_gain_lift_tbl <- ranked_predictions_tbl %>%
+  mutate(ntile = ntile(Yes, n = 10)) %>%
+  group_by(ntile) %>%
+  summarise(
+    cases = n(),
+    responses = sum(went_on_backorder == "Yes")
+  ) %>%
+  arrange(desc(ntile)) %>%
+  
+  # Add group numbers (opposite of ntile)
+  mutate(group = row_number()) %>%
+  dplyr::select(group, cases, responses) %>%
+  
+  # Calculations
+  mutate(
+    cumulative_responses = cumsum(responses),
+    pct_responses        = responses / sum(responses),
+    gain                 = cumsum(pct_responses),
+    cumulative_pct_cases = cumsum(cases) / sum(cases),
+    lift                 = gain / cumulative_pct_cases,
+    gain_baseline        = cumulative_pct_cases,
+    lift_baseline        = gain_baseline / cumulative_pct_cases
+  )
+
+calculated_gain_lift_tbl 
+
+gain_lift_tbl <- performance_h2o %>%
+  h2o.gainsLift() %>%
+  as.tibble()
+
+## Gain Chart
+
+gain_transformed_tbl <- gain_lift_tbl %>% 
+  dplyr::select(group, cumulative_data_fraction, cumulative_capture_rate, cumulative_lift) %>%
+  dplyr::select(-contains("lift")) %>%
+  mutate(baseline = cumulative_data_fraction) %>%
+  rename(gain     = cumulative_capture_rate) %>%
+  # prepare the data for the plotting (for the color and group aesthetics)
+  pivot_longer(cols = c(gain, baseline), values_to = "value", names_to = "key")
+
+gain_transformed_tbl %>%
+  ggplot(aes(x = cumulative_data_fraction, y = value, color = key)) +
+  geom_line(size = 1.5) +
+  labs(
+    title = "Gain Chart",
+    x = "Cumulative Data Fraction",
+    y = "Gain"
+  ) +
+  theme_new
+
+## Lift Plot
+
+lift_transformed_tbl <- gain_lift_tbl %>% 
+  dplyr::select(group, cumulative_data_fraction, cumulative_capture_rate, cumulative_lift) %>%
+  dplyr::select(-contains("capture")) %>%
+  mutate(baseline = 1) %>%
+  rename(lift = cumulative_lift) %>%
+  pivot_longer(cols = c(lift, baseline), values_to = "value", names_to = "key")
+
+lift_transformed_tbl %>%
+  ggplot(aes(x = cumulative_data_fraction, y = value, color = key)) +
+  geom_line(size = 1.5) +
+  labs(
+    title = "Lift Chart",
+    x = "Cumulative Data Fraction",
+    y = "Lift"
+  ) +
+  theme_new
+
+
+
+
+# 5. Performance Visualization ----  
+library(cowplot)
+library(glue)
+
+
+# set values to test the function while building it
+h2o_leaderboard <- automl_models_h2o@leaderboard
+newdata <- test_tbl
+order_by <- "auc"
+max_models <- 4
+size <- 1
+
+plot_h2o_performance <- function(h2o_leaderboard, newdata, order_by = c("auc", "logloss"),
+                                 max_models = 3, size = 1.5) {
+  
+  # Inputs
+  
+  leaderboard_tbl <- h2o_leaderboard %>%
+    as_tibble() %>%
+    slice(1:max_models)
+  
+  newdata_tbl <- newdata %>%
+    as_tibble()
+  
+  # Selecting the first, if nothing is provided
+  order_by      <- tolower(order_by[[1]]) 
+  
+  # Convert string stored in a variable to column name (symbol)
+  order_by_expr <- rlang::sym(order_by)
+  
+  # Turn of the progress bars ( opposite h2o.show_progress())
+  h2o.no_progress()
+  
+  # 1. Model metrics
+  
+  get_model_performance_metrics <- function(model_id, test_tbl) {
+    
+    model_h2o <- h2o.getModel(model_id)
+    perf_h2o  <- h2o.performance(model_h2o, newdata = as.h2o(test_tbl))
+    
+    perf_h2o %>%
+      h2o.metric() %>%
+      as.tibble() %>%
+      dplyr::select(threshold, tpr, fpr, precision, recall)
+    
+  }
+  
+  model_metrics_tbl <- leaderboard_tbl %>%
+    mutate(metrics = map(model_id, get_model_performance_metrics, newdata_tbl)) %>%
+    unnest(cols = metrics) %>%
+    mutate(
+      model_id = as_factor(model_id) %>% 
+        # programmatically reorder factors depending on order_by
+        fct_reorder(!! order_by_expr, 
+                    .desc = ifelse(order_by == "auc", TRUE, FALSE)),
+      auc      = auc %>% 
+        round(3) %>% 
+        as.character() %>% 
+        as_factor() %>% 
+        fct_reorder(as.numeric(model_id)),
+      logloss  = logloss %>% 
+        round(4) %>% 
+        as.character() %>% 
+        as_factor() %>% 
+        fct_reorder(as.numeric(model_id))
+    )
+  
+  
+  # 1A. ROC Plot
+  
+  p1 <- model_metrics_tbl %>%
+    ggplot(aes(fpr, tpr, color = model_id, linetype = !! order_by_expr)) +
+    geom_line(size = size) +
+    theme_new +
+    labs(title = "ROC", x = "FPR", y = "TPR") +
+    theme(legend.direction = "vertical") 
+  
+  
+  # 1B. Precision vs Recall
+  
+  p2 <- model_metrics_tbl %>%
+    ggplot(aes(recall, precision, color = model_id, linetype = !! order_by_expr)) +
+    geom_line(size = size) +
+    theme_new +
+    labs(title = "Precision Vs Recall", x = "Recall", y = "Precision") +
+    theme(legend.position = "none") 
+  
+  
+  # 2. Gain / Lift
+  
+  get_gain_lift <- function(model_id, test_tbl) {
+    
+    model_h2o <- h2o.getModel(model_id)
+    perf_h2o  <- h2o.performance(model_h2o, newdata = as.h2o(test_tbl)) 
+    
+    perf_h2o %>%
+      h2o.gainsLift() %>%
+      as.tibble() %>%
+      dplyr::select(group, cumulative_data_fraction, cumulative_capture_rate, cumulative_lift)
+    
+  }
+  
+  gain_lift_tbl <- leaderboard_tbl %>%
+    mutate(metrics = map(model_id, get_gain_lift, newdata_tbl)) %>%
+    unnest(cols = metrics) %>%
+    mutate(
+      model_id = as_factor(model_id) %>% 
+        fct_reorder(!! order_by_expr, 
+                    .desc = ifelse(order_by == "auc", TRUE, FALSE)),
+      auc  = auc %>% 
+        round(3) %>% 
+        as.character() %>% 
+        as_factor() %>% 
+        fct_reorder(as.numeric(model_id)),
+      logloss = logloss %>% 
+        round(4) %>% 
+        as.character() %>% 
+        as_factor() %>% 
+        fct_reorder(as.numeric(model_id))
+    ) %>%
+    rename(
+      gain = cumulative_capture_rate,
+      lift = cumulative_lift
+    ) 
+  
+  # 2A. Gain Plot
+  
+  p3 <- gain_lift_tbl %>%
+    ggplot(aes(cumulative_data_fraction, gain, 
+               color = model_id, linetype = !! order_by_expr)) +
+    geom_line(size = size,) +
+    geom_segment(x = 0, y = 0, xend = 1, yend = 1, 
+                 color = "red", size = size, linetype = "dotted") +
+    theme_new +
+    expand_limits(x = c(0, 1), y = c(0, 1)) +
+    labs(title = "Gain",
+         x = "Cumulative Data Fraction", y = "Gain") +
+    theme(legend.position = "none")
+  
+  # 2B. Lift Plot
+  
+  p4 <- gain_lift_tbl %>%
+    ggplot(aes(cumulative_data_fraction, lift, 
+               color = model_id, linetype = !! order_by_expr)) +
+    geom_line(size = size) +
+    geom_segment(x = 0, y = 1, xend = 1, yend = 1, 
+                 color = "red", size = size, linetype = "dotted") +
+    theme_new +
+    expand_limits(x = c(0, 1), y = c(0, 1)) +
+    labs(title = "Lift",
+         x = "Cumulative Data Fraction", y = "Lift") +
+    theme(legend.position = "none") 
+  
+  
+  # Combine using cowplot
+  
+  # cowplot::get_legend extracts a legend from a ggplot object
+  p_legend <- get_legend(p1)
+  # Remove legend from p1
+  p1 <- p1 + theme(legend.position = "none")
+  
+  # cowplot::plt_grid() combines multiple ggplots into a single cowplot object
+  p <- cowplot::plot_grid(p1, p2, p3, p4, ncol = 2)
+  
+  # cowplot::ggdraw() sets up a drawing layer
+  p_title <- ggdraw() + 
+    
+    # cowplot::draw_label() draws text on a ggdraw layer / ggplot object
+    draw_label("H2O Model Metrics", size = 18, fontface = "bold", 
+               color = "#2C3E50")
+  
+  p_subtitle <- ggdraw() + 
+    draw_label(glue("Ordered by {toupper(order_by)}"), size = 10,  
+               color = "#2C3E50")
+  
+  # Combine everything
+  ret <- plot_grid(p_title, p_subtitle, p, p_legend, 
+                   
+                   # Adjust the relative spacing, so that the legends always fits
+                   ncol = 1, rel_heights = c(0.05, 0.05, 1, 0.05 * max_models))
+  
+  h2o.show_progress()
+  
+  return(ret)
+  
+}
+
+automl_models_h2o@leaderboard %>%
+  plot_h2o_performance(newdata = test_tbl, order_by = "logloss", 
+                       size = 0.5, max_models = 4)
+```
+
+#Explaining Black-Box Models With LIME
+
+Part 1: Recreate plot_features(). Take the explanation data and use the first case to create a plot similar to the output of plot_features().
+
+Part 2: Recreate plot_explanations():
+
+Take the full explanation data and recreate the second plot.
+
+You will need at least the layers geom_tile() and facet_wrap().
+
+```{r Explain Black Box Models}
+
+# Load data
+library(tidyverse)
+library(readxl)
+
+library(h2o)
+library(recipes)
+library(readr)
+library(readxl)
+library(rsample)
+library(tidyquant)
+library(lime)
+
+
+product_backorders_tbl <- read_csv("C:/Users/Shawn/Documents/Rstudio/00_data/H20/product_backorders.csv")
+# definitions_raw_tbl    <- read_excel("C:/Users/Shawn/Documents/Rstudio/00_data/H20/data_definitions.xlsx", sheet = 1, col_names = FALSE)
+# View(definitions_raw_tbl)
+# H2O modeling
+
+
+data_table_tbl <- 
+  product_backorders_tbl %>%
+  mutate_if(is.character, as.factor) %>%
+  glimpse()
+
+data_table_tbl%>%
+  mutate_if(is.character, as.factor) %>%
+  dplyr::select_if(is.factor) %>%
+  glimpse()
+
+data_table_tbl %>%
+  mutate_if(is.character, as.factor) %>%
+  dplyr::select_if(is.factor) %>%
+  map(levels)
+
+set.seed(seed = 1113)
+split_obj                       <- rsample::initial_split(data_table_tbl, prop = 0.85)
+train_readable_tbl              <- training(split_obj)
+test_readable_tbl               <- testing(split_obj)
+
+recipe_obj <- recipe(went_on_backorder ~., data = train_readable_tbl) %>% 
+  update_role(sku, new_role = "ID") %>%
+  step_zv(all_predictors()) %>% 
+  prep()
+
+train_tbl <- bake(recipe_obj, new_data = train_readable_tbl)
+test_tbl  <- bake(recipe_obj, new_data = test_readable_tbl)
+
+# Modeling
+h2o.init()
+
+automl_leader <-  h2o.loadModel("C:/Users/Shawn/Documents/Rstudio/00_scripts/H20/Models/Model_Use/StackedEnsemble_AllModels_AutoML_20201117_210018")
+
+
+predictions_tbl <- automl_leader %>% 
+  h2o.predict(newdata = as.h2o(test_tbl)) %>%
+  as.tibble() %>%
+  bind_cols(
+    test_tbl %>%
+      dplyr::select(went_on_backorder)
+  )
+
+predictions_tbl
+
+
+test_tbl %>%
+  slice(1) %>%
+  glimpse()
+
+
+explainer <- train_tbl %>%
+  dplyr::select(-went_on_backorder) %>%
+  lime(
+    model           = automl_leader,
+    bin_continuous  = TRUE,
+    n_bins          = 4,
+    quantile_bins   = TRUE
+  )
+
+explainer
+
+explanation <- test_tbl %>%
+  slice(1) %>%
+  dplyr::select(-went_on_backorder) %>%
+  lime::explain(
+    
+    # Pass our explainer object
+    explainer = explainer,
+    # Because it is a binary classification model: 1
+    n_labels   = 1,
+    # number of features to be returned
+    n_features = 8,
+    # number of localized linear models
+    n_permutations = 5000,
+    # Let's start with 1
+    kernel_width   = 0.5
+  )
+
+explanation
+
+explanation %>%
+  as.tibble() %>%
+  dplyr::select(feature:prediction) 
+
+g <- plot_features(explanation = explanation, ncol = 1)
+
+# 3.3 Multiple Explanations ----
+
+explanation <- test_tbl %>%
+  slice(1:20) %>%
+  dplyr::select(-went_on_backorder) %>%
+  lime::explain(
+    explainer = explainer,
+    n_labels   = 1,
+    n_features = 8,
+    n_permutations = 5000,
+    kernel_width   = 0.5
+  )
+
+explanation %>%
+  as.tibble()
+
+plot_features(explanation, ncol = 4)
+
+plot_explanations(explanation)
+
+explanation %>% 
+  as.tibble()
+
+case_1 <- explanation %>%
+  filter(case == 1)
+
+case_1 %>%
+  plot_features()
+
+```
+
+#Deep Learning
+
+For the challenge we are using tabular data instead of images. The goal is to predict customer churn using deep learning with Keras. The objective is similar to the employee churn prediction from the last session.
+
+NOTE: I was only able to get to the building the model part, when things started not working right. In the end I could not progress it any further....
+
+
+
+```{r Deep Learning}
+
+library(tidyverse)
+library(reticulate)
+library(tensorflow)
+library(keras)
+library(tidyverse)
+library(lime)
+library(rsample)
+library(recipes)
+library(yardstick)
+library(corrr)
+
+churn_data_raw <- read_csv("C:/Users/Shawn/Documents/Rstudio/00_scripts/Deep_Learning/Customer_Churn.csv")  %>% as_tibble()
+glimpse(churn_data_raw)
+
+churn_data_raw
+churn_data_tbl <- churn_data_raw %>% tidyr::drop_na() %>% dplyr::select(-customerID)
+
+set.seed(seed = 1113)
+split_obj                       <- rsample::initial_split(churn_data_tbl, prop = 0.8)
+train_tbl              <- training(split_obj)
+test_tbl               <- testing(split_obj)
+
+
+ churn_data_tbl %>% ggplot(aes(x = tenure)) + 
+                      geom_histogram(binwidth = 0.5, fill =  "#2DC6D6") +
+                       labs(
+                         title = "Tenure Counts Without Binning",
+                         x     = "tenure (month)"
+                         )
+
+
+ churn_data_tbl %>% ggplot(aes(x = tenure)) + 
+   geom_histogram(bins = 6, color = "white", fill =  "#2DC6D6") +
+   labs(
+     title = "Tenure Counts With Six Bins",
+     x     = "tenure (month)"
+   )
+ 
+ train_tbl %>%
+   dplyr::select(Churn, TotalCharges) %>%
+   mutate(
+     Churn = Churn %>% as.factor() %>% as.numeric(),
+     LogTotalCharges = log(TotalCharges)
+   ) %>%
+   correlate() %>%
+   focus(Churn) %>%
+   fashion()
+ 
+ churn_data_tbl %>% 
+   pivot_longer(cols      = c(Contract, InternetService, MultipleLines, PaymentMethod), 
+                names_to  = "feature", 
+                values_to = "category") %>% 
+   ggplot(aes(category)) +
+   geom_bar(fill = "#2DC6D6") +
+   facet_wrap(~ feature, scales = "free") +
+   labs(
+     title = "Features with multiple categories: Need to be one-hot encoded"
+   ) +
+   theme(axis.text.x = element_text(angle = 25, 
+                                    hjust = 1))
+ 
+ 
+ rec_obj <- recipe(Churn ~ ., data = train_tbl) %>%
+   step_rm(Churn) %>% 
+   step_discretize(tenure, options = list(cuts = 6)) %>%
+   step_log(TotalCharges) %>%
+   step_dummy(all_nominal(), -all_outcomes(), one_hot = T) %>%
+   step_center(all_predictors(), -all_outcomes()) %>%
+   step_scale(all_predictors(), -all_outcomes()) %>%
+   prep(data = train_tbl)
+
+ x_train_tbl <- bake(rec_obj, new_data = train_tbl)
+ x_test_tbl  <- bake(rec_obj, new_data = test_tbl)
+ class(x_train_tbl)
+ 
+ y_train_vec <- train_tbl %>% dplyr::select(Churn) %>% mutate(Churn = ifelse(Churn == "No",0,1))
+ y_test_vec <- test_tbl %>% dplyr::select(Churn) %>% mutate(Churn = ifelse(Churn == "No",0,1))
+
+ x_train <- as.matrix(x_train_tbl)
+ y_train <- as.matrix(y_train_vec)
+ x_test <- as.matrix( x_test_tbl)
+ y_test <- as.matrix(y_test_vec)
+ 
+ dim(x_train)
+ dim(y_train)
+ tf$constant("Hellow Tensorflow")
+install.packages("tensorflow")
+ # Building our Artificial Neural Network
+ model_keras <- keras_model_sequential()
+ 
+ model_keras %>% 
+   # First hidden layer
+   layer_dense(
+     units              = 16, 
+     kernel_initializer = "uniform", 
+     activation         = "relu", 
+     input_shape        = ncol(x_train_tbl)) %>% 
+   # Dropout to prevent overfitting
+   layer_dropout(rate = 0.1) %>%
+   # Second hidden layer
+   layer_dense(
+     units              = 16, 
+     kernel_initializer = "uniform", 
+     activation         = "relu") %>% 
+   # Dropout to prevent overfitting
+   layer_dropout(rate = 0.1) %>%
+   # Output layer
+   layer_dense(
+     units              = 1, 
+     kernel_initializer = "uniform", 
+     activation         = "sigmoid") %>% 
+   # Compile ANN
+   compile(
+     optimizer = 'adam',
+     loss      = 'binary_crossentropy',
+     metrics   = c('accuracy')
+   )
+ model_keras 
+ 
+ #Train the Model
+ library(reticulate)
+ fit_keras <- model_keras %>% fit(x_train, y_train, batch_size = 50, epochs = 35,  validation_split = 0.3)
+ 
+ fit_keras
+ 
+ library(extrafontdb)
+ 
+ plot(fit_keras) +
+   labs(title = "Deep Learning Training Results") +
+   theme(legend.position  = "bottom", 
+         strip.placement  = "inside")
+ 
+ 
+ # Predicted Class
+ yhat_keras_class_vec <- predict_classes(object = model_keras, x = as.matrix(x_test_tbl)) %>%
+   as.vector()
+ 
+ # Predicted Class Probability
+ yhat_keras_prob_vec  <- predict_proba(object = model_keras, x = as.matrix(x_test_tbl)) %>%
+   as.vector()
+                  
+                  
+                  
+```                  
+                  

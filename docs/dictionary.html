@@ -11,7 +11,7 @@
 
 <meta name="author" content="Joschka Schwarz" />
 
-<meta name="date" content="2020-07-21" />
+<meta name="date" content="2020-11-28" />
 
 <title>Dictionary</title>
 
@@ -28,6 +28,17 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -405,7 +416,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Dictionary</h1>
 <h4 class="author">Joschka Schwarz</h4>
-<h4 class="date">2020-07-21</h4>
+<h4 class="date">2020-11-28</h4>
 
 </div>
 
@@ -432,14 +443,16 @@ div.tocify {
 ##  [3] &quot;Rprof.out&quot;                 &quot;Rstudio&quot;                  
 ##  [5] &quot;_site.yml&quot;                 &quot;bike_data.json&quot;           
 ##  [7] &quot;data_wrangling.Rmd&quot;        &quot;data_wrangling.html&quot;      
-##  [9] &quot;dictionary.Rmd&quot;            &quot;docs&quot;                     
-## [11] &quot;ggplot_graphs.Rmd&quot;         &quot;images&quot;                   
-## [13] &quot;index.Rmd&quot;                 &quot;journal.Rmd&quot;              
-## [15] &quot;journal_cache&quot;             &quot;journal_files&quot;            
-## [17] &quot;lab_journal_website.Rproj&quot; &quot;links.Rmd&quot;                
-## [19] &quot;machine_learning.Rmd&quot;      &quot;sales_analysis.R&quot;         
-## [21] &quot;site_libs&quot;                 &quot;testfile.rds&quot;             
-## [23] &quot;testfile.txt&quot;</code></pre>
+##  [9] &quot;dictionary.Rmd&quot;            &quot;dictionary.html&quot;          
+## [11] &quot;dictionary_files&quot;          &quot;gadm36_DEU_1_sp.rds&quot;      
+## [13] &quot;ggplot_graphs.Rmd&quot;         &quot;ggplot_graphs.html&quot;       
+## [15] &quot;ggplot_graphs_files&quot;       &quot;images&quot;                   
+## [17] &quot;index.Rmd&quot;                 &quot;index.html&quot;               
+## [19] &quot;journal.Rmd&quot;               &quot;journal_cache&quot;            
+## [21] &quot;journal_files&quot;             &quot;lab_journal_website.Rproj&quot;
+## [23] &quot;links.Rmd&quot;                 &quot;machine_learning.Rmd&quot;     
+## [25] &quot;sales_analysis.R&quot;          &quot;site_libs&quot;                
+## [27] &quot;testfile.rds&quot;              &quot;testfile.txt&quot;</code></pre>
 <p>…</p>
 <hr />
 </div>
@@ -601,19 +614,19 @@ plot(x)</code></pre>
 <h2><span class="header-section-number">1.14</span> Distributions</h2>
 <p>rnorm() This function inserts a normal distribution.</p>
 <pre class="r"><code>rnorm(100, mean = 50, sd=2)</code></pre>
-<pre><code>##   [1] 48.61433 49.02863 50.65331 51.53239 52.83510 47.54858 50.60401 50.43966
-##   [9] 48.35904 53.75024 51.96342 49.49159 49.38402 50.97204 47.44988 48.44723
-##  [17] 49.72573 49.03320 52.43840 51.63801 51.91734 52.92228 50.45172 52.88183
-##  [25] 48.63828 52.45913 48.65155 50.26227 54.46259 50.44428 53.39856 49.24050
-##  [33] 48.36174 49.52867 52.96580 48.65872 48.61124 49.30440 49.10622 47.44426
-##  [41] 49.14327 48.84007 49.75209 51.12493 48.43040 50.30467 49.47430 48.97100
-##  [49] 48.69199 54.53527 48.61787 48.09121 46.43507 46.65633 49.64523 50.90724
-##  [57] 49.89216 49.73510 50.05895 50.56208 48.21488 52.82769 46.54051 54.30054
-##  [65] 50.36716 49.54213 47.18059 47.66441 49.40746 49.75157 45.64684 48.11309
-##  [73] 47.33053 50.40006 48.01959 51.39491 48.18867 49.52903 50.23332 49.59209
-##  [81] 50.45622 51.04035 48.59879 50.91363 47.55962 49.76453 49.57862 49.80565
-##  [89] 44.07937 49.61602 48.10604 47.40751 50.20435 51.41386 46.80996 51.69832
-##  [97] 51.84336 49.79285 48.95673 51.34987</code></pre>
+<pre><code>##   [1] 50.27523 50.56941 50.59110 48.90889 49.92441 51.19478 50.05665 46.57630
+##   [9] 50.57402 47.26965 46.43817 50.31637 50.96617 50.41195 51.63329 48.31230
+##  [17] 47.07801 48.84540 50.57721 47.60214 54.13683 48.99646 50.13659 49.52173
+##  [25] 50.19166 53.28717 49.67222 47.21409 52.08628 52.11452 52.20310 51.32200
+##  [33] 50.42530 48.42936 49.58237 50.61056 49.48643 45.60973 50.82723 53.58639
+##  [41] 49.08076 48.48237 49.14562 51.91915 49.10686 47.02142 46.23350 51.36435
+##  [49] 46.54856 49.14071 50.58042 50.62681 50.53717 50.42839 48.12180 48.40822
+##  [57] 51.55216 48.72321 46.98106 49.08900 50.85560 51.86097 48.46061 50.87898
+##  [65] 50.60984 49.22323 50.36315 49.93256 48.90498 47.48865 47.92778 50.40887
+##  [73] 50.38349 50.37394 49.97823 49.65898 45.12693 48.18710 47.13702 52.12643
+##  [81] 51.72017 53.68990 50.25672 50.31069 51.88934 47.07539 49.23295 50.00156
+##  [89] 50.38998 51.64068 48.30486 50.27114 51.56187 51.36027 50.55514 50.11252
+##  [97] 46.11845 48.46425 45.35714 50.62285</code></pre>
 </div>
 <div id="programming" class="section level2">
 <h2><span class="header-section-number">1.15</span> Programming</h2>
@@ -636,7 +649,7 @@ plot(x)</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
