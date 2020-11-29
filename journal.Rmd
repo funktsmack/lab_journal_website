@@ -2414,7 +2414,9 @@ case_1 %>%
 
 ```
 
-#Deep Learning
+
+
+# Deep Learning
 
 For the challenge we are using tabular data instead of images. The goal is to predict customer churn using deep learning with Keras. The objective is similar to the employee churn prediction from the last session.
 
@@ -2569,3 +2571,9 @@ install.packages("tensorflow")
                   
 ```                  
                   
+# Reporting Tools
+
+Please reach out to me for the code. I could not get this to portion to show up in the lab journal...
+
+I will send it to you if you need proof.
+
